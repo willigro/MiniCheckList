@@ -9,7 +9,8 @@ class KeepItemViewModel(private val keepItemModel: KeepItemModel) : BaseViewMode
     private val insertResult: MutableLiveData<Item> = MutableLiveData()
     private val updateResult: MutableLiveData<Item> = MutableLiveData()
     private val contentValidateResult: MutableLiveData<Boolean> = MutableLiveData()
-    fun getKeptItem() = insertResult
+    fun getInsertItemResult() = insertResult
+    fun getUpdateItemResult() = updateResult
     fun getContentResult() = contentValidateResult
 
     fun keep(item: Item) {
