@@ -1,5 +1,6 @@
 package com.rittamann.minichecklist.data.repository
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.rittamann.minichecklist.data.base.Item
@@ -59,5 +60,14 @@ class CheckListDAO(context: Context) {
         }
         managerDAO.close()
         return list
+    }
+
+    fun setChecked(item: Item): Boolean {
+        managerDAO.openWrite()
+        return managerDAO.db?.let {
+            GenericDAO(TableItem.TABLE, TableItem.ID).update(it, ContentValues().apply {
+                put(TableItem.CHECKED, item.checked)
+            }, item.id, true)
+        } ?: false
     }
 }

@@ -3,8 +3,10 @@ package com.rittamann.minichecklist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.InstrumentationRegistry
 import com.rittamann.minichecklist.data.base.Item
+import com.rittamann.minichecklist.data.repository.CheckListDAO
 import com.rittamann.minichecklist.exceptions.ItemNameEmptyException
 import com.rittamann.minichecklist.exceptions.ItemPositionLessZeroException
+import com.rittamann.minichecklist.ui.checklist.CheckListModel
 import com.rittamann.minichecklist.ui.checklist.CheckListViewModel
 import org.junit.Assert
 import org.junit.FixMethodOrder
@@ -17,7 +19,7 @@ class CheckListViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    private val viewModel = CheckListViewModel()
+    private val viewModel = CheckListViewModel(CheckListModel(context()))
     private fun context() = InstrumentationRegistry.getTargetContext()
 
     @Test
@@ -76,6 +78,57 @@ class CheckListViewModelTest {
         viewModel.getCheckList().observeOnce {
             Assert.assertEquals(4, it[4].position)
             Assert.assertEquals("New item 5", it[4].content)
+        }
+    }
+
+    @Test
+    fun check_item() {
+        val item = Item()
+        item.id = CheckListDAO(context()).insert(item)
+        viewModel.checkItem(item)
+        viewModel.getCheckResult().observeOnce {
+            Assert.assertTrue(it)
+        }
+        viewModel.getUncheckResult().observeOnce {
+            Assert.fail()
+        }
+    }
+
+
+    @Test
+    fun uncheck_item() {
+        val item = Item()
+        item.id = CheckListDAO(context()).insert(item)
+        viewModel.uncheckItem(item)
+        viewModel.getUncheckResult().observeOnce {
+            Assert.assertTrue(it)
+        }
+        viewModel.getCheckResult().observeOnce {
+            Assert.fail()
+        }
+    }
+
+    @Test
+    fun check_item_without_id() {
+        val item = Item()
+        viewModel.checkItem(item)
+        viewModel.getCheckResult().observeOnce {
+            Assert.assertFalse(it)
+        }
+        viewModel.getUncheckResult().observeOnce {
+            Assert.fail()
+        }
+    }
+
+    @Test
+    fun uncheck_item_without_id() {
+        val item = Item()
+        viewModel.uncheckItem(item)
+        viewModel.getUncheckResult().observeOnce {
+            Assert.assertFalse(it)
+        }
+        viewModel.getCheckResult().observeOnce {
+            Assert.fail()
         }
     }
 }
