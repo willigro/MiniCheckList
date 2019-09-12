@@ -9,7 +9,7 @@ object CursorDAO {
     fun item(cursor: Cursor) = Item()
         .apply {
             id = cursor.getLong(cursor.getColumnIndex(TableItem.ID))
-            name = cursor.getString(cursor.getColumnIndex(TableItem.NAME))
+            content = cursor.getString(cursor.getColumnIndex(TableItem.CONTENT))
             createCate = DateUtil.parseDate(cursor.getString(cursor.getColumnIndex(TableItem.CREATE_DATE)))
             position = cursor.getInt(cursor.getColumnIndex(TableItem.POSITION))
             checked = cursor.getInt(cursor.getColumnIndex(TableItem.CHECKED)) > 0

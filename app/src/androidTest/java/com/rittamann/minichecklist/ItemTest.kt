@@ -16,11 +16,11 @@ class ItemTest {
     fun new_item_set_id_and_name() {
         val item = Item().apply {
             id = 1
-            name = "New item"
+            content = "New item"
         }
         Assert.assertNotNull(item)
         Assert.assertEquals(1, item.id)
-        Assert.assertEquals("New item", item.name)
+        Assert.assertEquals("New item", item.content)
     }
 
     @Test

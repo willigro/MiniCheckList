@@ -30,7 +30,7 @@ object Table {
 object TableItem {
     const val TABLE = "tb_item"
     const val ID = "id_item"
-    const val NAME = "name_item"
+    const val CONTENT = "content_item"
     const val CREATE_DATE = "create_date_item"
     const val CHECKED = "checked_item"
     const val POSITION = "position_item"
@@ -38,7 +38,7 @@ object TableItem {
     fun create() = "${Table.CREATE} $TABLE (" +
             "$ID INTEGER PRIMARY KEY AUTOINCREMENT," +
             "$CREATE_DATE TEXT NULL, " +
-            "$NAME TEXT NULL, " +
+            "$CONTENT TEXT NULL, " +
             "$POSITION INTEGER DEFAULT 0, " +
             "$CHECKED INTEGER DEFAULT 0);"
 }
