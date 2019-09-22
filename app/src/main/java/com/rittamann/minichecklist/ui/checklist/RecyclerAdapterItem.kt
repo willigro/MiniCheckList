@@ -50,9 +50,11 @@ class RecyclerAdapterItem(private val context: Context, private val list: List<I
     }
 
     fun forceUpdate(list: List<Item>) {
-        (this.list as ArrayList).clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
+        (this.list as ArrayList).apply {
+            clear()
+            addAll(list)
+            notifyDataSetChanged()
+        }
     }
 
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
