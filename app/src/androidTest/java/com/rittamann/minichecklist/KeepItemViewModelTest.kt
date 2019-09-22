@@ -28,8 +28,12 @@ class KeepItemViewModelTest {
         Item().apply {
             content = "Inicio"
             id = checkListDAO.insert(this)
-            content = "Fim"
-            viewModel.update(this)
+            viewModel.attachItem(this)
+            viewModel.getItemAttached().observeOnce {
+                Assert.assertNotNull(it)
+                Assert.assertNotEquals("Inicio", it.content)
+            }
+            viewModel.update("Fim")
             viewModel.getUpdateItemResult().observeOnce {
                 Assert.assertNotNull(it)
                 Assert.assertNotEquals(0, it.id)
@@ -43,9 +47,13 @@ class KeepItemViewModelTest {
         Item().apply {
             content = "Inicio"
             checkListDAO.insert(this)
+            viewModel.attachItem(this)
+            viewModel.getItemAttached().observeOnce {
+                Assert.assertNotNull(it)
+                Assert.assertNotEquals("Inicio", it.content)
+            }
             id = 10000
-            content = "Fim"
-            viewModel.update(this)
+            viewModel.update("Fim")
             viewModel.getUpdateItemResult().observeOnce {
                 Assert.assertNull(it)
             }
@@ -56,9 +64,9 @@ class KeepItemViewModelTest {
     fun add_new_item_with_negative_position() {
         Item().apply {
             id = checkListDAO.insert(this)
-            content = "Testando"
+            viewModel.attachItem(this)
             position = -2
-            viewModel.update(this)
+            viewModel.update("Testando")
         }
     }
 }

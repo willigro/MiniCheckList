@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Item
@@ -54,7 +55,7 @@ class CheckListActivity : BaseActivity() {
 
     private fun newItemCreated(item: Item) {
         Intent(this@CheckListActivity, KeepItemActivity::class.java).apply {
-            putExtra(Constants.NEW_ITEM_ARGS, item)
+            putExtra(Constants.ITEM_ARGS, item)
             startActivity(this)
         }
     }
@@ -68,10 +69,16 @@ class CheckListActivity : BaseActivity() {
     }
 
     private fun initRecycler(list: List<Item>) {
-        RecyclerAdapterItem(list).apply {
+        RecyclerAdapterItem(this, list).apply {
             adapter = this
             recyclerView.adapter = this
             recyclerView.layoutManager = LinearLayoutManager(this@CheckListActivity)
+            recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                    this@CheckListActivity,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
     }
 }

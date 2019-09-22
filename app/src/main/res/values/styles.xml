@@ -11,6 +11,7 @@
     <style name="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="EditText">

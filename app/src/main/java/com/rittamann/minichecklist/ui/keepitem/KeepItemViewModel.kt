@@ -7,19 +7,21 @@ import com.rittamann.minichecklist.ui.base.BaseViewModel
 class KeepItemViewModel(private val keepItemModel: KeepItemModel) : BaseViewModel() {
 
     private val updateResult: MutableLiveData<Item> = MutableLiveData()
-    private val contentValidateResult: MutableLiveData<Boolean> = MutableLiveData()
+    private val itemAttached: MutableLiveData<Item> = MutableLiveData()
+
     fun getUpdateItemResult() = updateResult
-    fun getContentResult() = contentValidateResult
+    fun getItemAttached() = itemAttached
 
-    fun update(item: Item) {
-        contentValidateResult.value = true
+    fun attachItem(item: Item) {
+        itemAttached.value = item
+    }
 
-        if(item.valid()){
-            contentValidateResult.value = false
-        }
-
-        keepItemModel.update(item).also {
-            updateResult.value = if (it) item else null
+    fun update(content: String) {
+        itemAttached.value!!.apply {
+            this.content = content
+            keepItemModel.update(this).also {
+                updateResult.value = if (it) this else null
+            }
         }
     }
 }
