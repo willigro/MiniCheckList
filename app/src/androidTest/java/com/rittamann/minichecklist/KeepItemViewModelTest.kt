@@ -61,23 +61,4 @@ class KeepItemViewModelTest {
             viewModel.update(this)
         }
     }
-
-    @Test(expected = ItemNameEmptyException::class)
-    fun add_new_item_with_name_empty() {
-        Item().apply {
-            id = checkListDAO.insert(this)
-            content = ""
-            viewModel.update(this)
-        }
-    }
-
-    @Test(expected = ItemNameEmptyException::class)
-    fun add_new_item_with_name_empty_with_spaces() {
-        Item().apply {
-            id = checkListDAO.insert(this)
-            content = "     "
-            viewModel.update(this)
-        }
-    }
-
 }
