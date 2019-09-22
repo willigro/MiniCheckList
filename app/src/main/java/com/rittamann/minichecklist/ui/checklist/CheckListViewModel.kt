@@ -7,16 +7,21 @@ import com.rittamann.minichecklist.ui.base.BaseViewModel
 
 class CheckListViewModel(private val checkListModel: CheckListModel) : BaseViewModel() {
 
-    private val arrayCheckList: MutableLiveData<ArrayCheckList> = MutableLiveData()
+    private val listItems: MutableLiveData<List<Item>> = MutableLiveData()
+    private val newItemResult: MutableLiveData<Item> = MutableLiveData()
     private val checkedItemResult: MutableLiveData<Boolean> = MutableLiveData()
     private val uncheckedItemResult: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getCheckList(): LiveData<ArrayCheckList> = arrayCheckList
+    fun getCheckListResult(): LiveData<List<Item>> = listItems
+    fun getNewItemReuslt(): LiveData<Item> = newItemResult
     fun getCheckResult(): LiveData<Boolean> = checkedItemResult
     fun getUncheckResult(): LiveData<Boolean> = uncheckedItemResult
 
     fun addItem(item: Item) {
-        getList().addItem(item)
+        item.also {
+            item.id = checkListModel.newItem(it)
+            newItemResult.value = item
+        }
     }
 
     fun checkItem(item: Item) {
@@ -33,9 +38,7 @@ class CheckListViewModel(private val checkListModel: CheckListModel) : BaseViewM
         }
     }
 
-    private fun getList(): ArrayCheckList {
-        if (arrayCheckList.value == null)
-            arrayCheckList.value = ArrayCheckList()
-        return arrayCheckList.value!!
+    fun fetchCheckList() {
+        listItems.value = checkListModel.getAll()
     }
 }

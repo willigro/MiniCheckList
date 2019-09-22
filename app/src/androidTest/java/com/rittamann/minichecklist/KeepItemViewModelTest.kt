@@ -3,6 +3,9 @@ package com.rittamann.minichecklist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.InstrumentationRegistry
 import com.rittamann.minichecklist.data.base.Item
+import com.rittamann.minichecklist.data.repository.CheckListDAO
+import com.rittamann.minichecklist.exceptions.ItemNameEmptyException
+import com.rittamann.minichecklist.exceptions.ItemPositionLessZeroException
 import com.rittamann.minichecklist.ui.keepitem.KeepItemModel
 import com.rittamann.minichecklist.ui.keepitem.KeepItemViewModel
 import org.junit.Assert
@@ -18,37 +21,63 @@ class KeepItemViewModelTest {
     val rule = InstantTaskExecutorRule()
     private val viewModel = KeepItemViewModel(KeepItemModel(context()))
     private fun context() = InstrumentationRegistry.getTargetContext()
-
-    @Test
-    fun inset_item() {
-        viewModel.keep(Item(content = "Tarefa 1"))
-        viewModel.getInsertItemResult().observeOnce {
-            Assert.assertNotEquals(0, it.id)
-        }
-        viewModel.getUpdateItemResult().observeOnce {
-            Assert.fail()
-        }
-    }
+    private val checkListDAO = CheckListDAO(context())
 
     @Test
     fun update_item() {
-        viewModel.keep(Item(content = "Tarefa 1"))
-        viewModel.getInsertItemResult().observeOnce {
-            Assert.fail()
-        }
-        viewModel.getUpdateItemResult().observeOnce {
-            Assert.assertNotNull(it)
+        Item().apply {
+            content = "Inicio"
+            id = checkListDAO.insert(this)
+            content = "Fim"
+            viewModel.update(this)
+            viewModel.getUpdateItemResult().observeOnce {
+                Assert.assertNotNull(it)
+                Assert.assertNotEquals(0, it.id)
+                Assert.assertNotEquals("Inicio", it.content)
+            }
         }
     }
 
     @Test
     fun update_item_with_id_wrong() {
-        viewModel.keep(Item(id = random().toLong() * 1000, content = "Tarefa 2"))
-        viewModel.getInsertItemResult().observeOnce {
-            Assert.fail()
-        }
-        viewModel.getUpdateItemResult().observeOnce {
-            Assert.assertNull(it)
+        Item().apply {
+            content = "Inicio"
+            checkListDAO.insert(this)
+            id = 10000
+            content = "Fim"
+            viewModel.update(this)
+            viewModel.getUpdateItemResult().observeOnce {
+                Assert.assertNull(it)
+            }
         }
     }
+
+    @Test(expected = ItemPositionLessZeroException::class)
+    fun add_new_item_with_negative_position() {
+        Item().apply {
+            id = checkListDAO.insert(this)
+            content = "Testando"
+            position = -2
+            viewModel.update(this)
+        }
+    }
+
+    @Test(expected = ItemNameEmptyException::class)
+    fun add_new_item_with_name_empty() {
+        Item().apply {
+            id = checkListDAO.insert(this)
+            content = ""
+            viewModel.update(this)
+        }
+    }
+
+    @Test(expected = ItemNameEmptyException::class)
+    fun add_new_item_with_name_empty_with_spaces() {
+        Item().apply {
+            id = checkListDAO.insert(this)
+            content = "     "
+            viewModel.update(this)
+        }
+    }
+
 }

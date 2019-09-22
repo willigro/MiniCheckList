@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MiniCheckList</string>
+    <string name="error_new_item">Não foi possível criar uma nova nota</string>
 </resources>

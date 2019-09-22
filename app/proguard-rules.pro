@@ -16,6 +16,6 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# If you keep the line number information, uncomment this to
+# If you update the line number information, uncomment this to
 # hide the original source file content.
 #-renamesourcefileattribute SourceFile
