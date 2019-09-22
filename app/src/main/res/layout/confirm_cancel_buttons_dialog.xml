@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginTop="@dimen/margin_button_top"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:id="@+id/confirm_cancel_buttons"
+        android:gravity="center" android:layout_height="wrap_content">
+
+    <Button
+            android:layout_marginRight="@dimen/margin_between_buttons"
+            android:layout_marginEnd="@dimen/margin_between_buttons"
+            android:id="@+id/btn_cancel"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            style="@style/ButtonOK"/>
+
+    <Button
+            android:layout_marginStart="@dimen/margin_between_buttons"
+            android:layout_marginLeft="@dimen/margin_between_buttons"
+            android:id="@+id/btn_confirm"
+            android:layout_weight="1"
+            android:text="@string/confirm"
+            style="@style/Button"/>
+</LinearLayout>

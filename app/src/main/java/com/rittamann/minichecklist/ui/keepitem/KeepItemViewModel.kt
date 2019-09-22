@@ -6,11 +6,13 @@ import com.rittamann.minichecklist.ui.base.BaseViewModel
 
 class KeepItemViewModel(private val keepItemModel: KeepItemModel) : BaseViewModel() {
 
-    private val updateResult: MutableLiveData<Item> = MutableLiveData()
     private val itemAttached: MutableLiveData<Item> = MutableLiveData()
+    private val updateResult: MutableLiveData<Item> = MutableLiveData()
+    private val deleteResult: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getUpdateItemResult() = updateResult
     fun getItemAttached() = itemAttached
+    fun getUpdateItemResult() = updateResult
+    fun getDeleteItemResult() = deleteResult
 
     fun attachItem(item: Item) {
         itemAttached.value = item
@@ -23,5 +25,9 @@ class KeepItemViewModel(private val keepItemModel: KeepItemModel) : BaseViewMode
                 updateResult.value = if (it) this else null
             }
         }
+    }
+
+    fun deleteItem() {
+        deleteResult.value = keepItemModel.delete(itemAttached.value!!)
     }
 }

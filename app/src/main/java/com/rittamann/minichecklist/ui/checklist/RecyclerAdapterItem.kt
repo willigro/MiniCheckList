@@ -49,6 +49,12 @@ class RecyclerAdapterItem(private val context: Context, private val list: List<I
         }
     }
 
+    fun forceUpdate(list: List<Item>) {
+        (this.list as ArrayList).clear()
+        this.list.addAll(list)
+        notifyDataSetChanged()
+    }
+
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.txtTitle)
         val layout: View = itemView.findViewById(R.id.adapterLayout)

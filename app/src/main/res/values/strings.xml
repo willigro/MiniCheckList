@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MiniCheckList</string>
     <string name="error_new_item">Não foi possível criar uma nova nota</string>
+    <string name="delete">Excluir</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="ok">OK</string>
+    <string name="do_you_wish_remove_item">Deseja remover estas anotações?</string>
+    <string name="item_deleted">Item deletado</string>
 </resources>

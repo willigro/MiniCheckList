@@ -8,4 +8,5 @@ class KeepItemModel(context: Context) {
     private val checkListDAO = CheckListDAO(context)
 
     fun update(item: Item) = checkListDAO.update(item)
+    fun delete(item: Item) = checkListDAO.delete(item)
 }

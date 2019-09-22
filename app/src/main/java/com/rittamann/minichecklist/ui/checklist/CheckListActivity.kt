@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.recyclerView
 
 class CheckListActivity : BaseActivity() {
 
-    private lateinit var adapter: RecyclerAdapterItem
+    private var adapter: RecyclerAdapterItem? = null
     private lateinit var viewModel: CheckListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,16 +69,20 @@ class CheckListActivity : BaseActivity() {
     }
 
     private fun initRecycler(list: List<Item>) {
-        RecyclerAdapterItem(this, list).apply {
-            adapter = this
-            recyclerView.adapter = this
-            recyclerView.layoutManager = LinearLayoutManager(this@CheckListActivity)
-            recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    this@CheckListActivity,
-                    DividerItemDecoration.VERTICAL
+        if (adapter == null) {
+            RecyclerAdapterItem(this, list).apply {
+                adapter = this
+                recyclerView.adapter = this
+                recyclerView.layoutManager = LinearLayoutManager(this@CheckListActivity)
+                recyclerView.addItemDecoration(
+                    DividerItemDecoration(
+                        this@CheckListActivity,
+                        DividerItemDecoration.VERTICAL
+                    )
                 )
-            )
+            }
+        } else {
+            adapter!!.forceUpdate(list)
         }
     }
 }

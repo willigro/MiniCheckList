@@ -3,12 +3,16 @@ package com.rittamann.minichecklist.ui.keepitem
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Item
 import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.utils.Constants
+import com.rittamann.minichecklist.utils.DialogUtil
 import kotlinx.android.synthetic.main.activity_keep_item.editTextContent
+import kotlinx.android.synthetic.main.toolbar.viewDelete
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -49,10 +53,18 @@ class KeepItemActivity : BaseActivity() {
                 }
             }
         })
+
+        viewDelete.setOnClickListener {
+            val dialog = DialogUtil().initConfirm(this@KeepItemActivity, getString(R.string.do_you_wish_remove_item))
+            dialog.showConfirm(View.OnClickListener {
+                viewModel.deleteItem()
+                dialog.dismiss()
+            })
+        }
     }
 
     private fun initTimer() {
-        timer = Timer("", false)
+        timer = Timer("Timer to update content", false)
     }
 
     private fun initObserver() {
@@ -63,6 +75,17 @@ class KeepItemActivity : BaseActivity() {
                     editTextContent.setSelection(it.content.length)
                 }
             })
+
+        viewModel.getDeleteItemResult().observe(this, Observer { deleted ->
+            if (deleted!!) {
+                Toast.makeText(
+                    this@KeepItemActivity,
+                    getString(R.string.item_deleted),
+                    Toast.LENGTH_LONG
+                ).show()
+                finish()
+            }
+        })
     }
 
     companion object {

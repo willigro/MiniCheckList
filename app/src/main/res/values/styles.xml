@@ -14,6 +14,28 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
 
+    <style name="TextViewClickable" parent="Clickable">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="TextViewTitleDialog" parent="TextView">
+        <item name="android:textSize">26sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="TextViewMessageDialog" parent="TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+    </style>
+
     <style name="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -22,5 +44,14 @@
     <style name="Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonOK" parent="Button">
+        <item name="android:text">@string/ok</item>
+    </style>
+
+    <style name="Clickable">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
     </style>
 </resources>
