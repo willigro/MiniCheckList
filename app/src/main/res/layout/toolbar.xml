@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
+                xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
     <TextView
-            android:padding="@dimen/padding_toolbar"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingEnd="@dimen/padding_toolbar"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="@string/delete"
             android:id="@+id/viewDelete"
             android:layout_width="wrap_content"
-            style="@style/TextViewClickable"/>
+            style="@style/TextViewClickable" tools:ignore="RtlCompat,RtlSymmetry"/>
 
     <include layout="@layout/divider_custom"/>
 </RelativeLayout>

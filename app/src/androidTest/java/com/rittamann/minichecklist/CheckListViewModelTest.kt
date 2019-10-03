@@ -22,7 +22,7 @@ class CheckListViewModelTest {
 
     @Test
     fun add_new_item() {
-        viewModel.addItem(Item(id = 1, content = "Novo item", position = 0))
+        viewModel.addItem(Item(id = 1, content = "Novo item"))
         viewModel.getNewItemReuslt().observeOnce {
             Assert.assertNotNull(it)
             Assert.assertNotEquals(0, it.id)

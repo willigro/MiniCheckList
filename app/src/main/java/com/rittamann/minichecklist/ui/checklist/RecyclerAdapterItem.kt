@@ -36,8 +36,7 @@ class RecyclerAdapterItem(private val context: Context, private val list: List<I
                     setTextColor(ContextCompat.getColor(context, R.color.textColorLight))
                     "Sem valor"
                 } else {
-                    val end = if (it.length >= 20) 20 else it.length
-                    it.substring(0, end)
+                    extractTitle(it)
                 }
             }
         }
@@ -46,6 +45,22 @@ class RecyclerAdapterItem(private val context: Context, private val list: List<I
                 putExtra(Constants.ITEM_ARGS, item)
                 context.startActivity(this)
             }
+        }
+    }
+
+    private fun extractTitle(title: String): String {
+        val end = if (title.length >= 20) 20 else title.length
+        title.substring(0, end).also { result ->
+            if (result.contains("\n")) {
+                val index = result.indexOf("\n")
+                if (index > 0) {
+                    val resultSub = result.substring(0, index)
+                    if (resultSub.isBlank())
+                        return "Sem valor"
+                    return resultSub
+                }
+            }
+            return result
         }
     }
 

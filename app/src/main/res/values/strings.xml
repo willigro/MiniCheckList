@@ -7,4 +7,5 @@
     <string name="ok">OK</string>
     <string name="do_you_wish_remove_item">Deseja remover estas anotações?</string>
     <string name="item_deleted">Item deletado</string>
+    <string name="new_item">Nova nota</string>
 </resources>

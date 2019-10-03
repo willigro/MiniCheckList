@@ -15,6 +15,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonNew"
+            android:text="@string/new_item"
             android:layout_alignParentBottom="true"
             style="@style/Button"/>
 </RelativeLayout>
