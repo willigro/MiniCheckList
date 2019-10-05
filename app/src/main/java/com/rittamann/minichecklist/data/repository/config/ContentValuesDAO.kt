@@ -1,14 +1,14 @@
 package com.rittamann.minichecklist.data.repository.config
 
 import android.content.ContentValues
-import com.rittamann.minichecklist.data.base.Item
+import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.utils.DateUtil
 
 object ContentValuesDAO {
 
-    fun item(item: Item) = ContentValues().apply {
-        put(TableItem.CONTENT, item.content)
-        put(TableItem.CHECKED, if (item.checked) 1 else 0)
-        put(TableItem.CREATE_DATE, DateUtil.dbFormat(item.createCate))
+    fun item(item: Note) = ContentValues().apply {
+        put(TableNote.CONTENT, item.content)
+        put(TableNote.CHECKED, if (item.checked) 1 else 0)
+        put(TableNote.CREATE_DATE, DateUtil.dbFormat(item.createCate))
     }
 }

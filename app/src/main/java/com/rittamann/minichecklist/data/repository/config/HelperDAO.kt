@@ -16,7 +16,7 @@ class HelperDAO(context: Context) : SQLiteOpenHelper(context, "minichecklist_db"
     }
 
     private fun createTables(sqLiteDatabase: SQLiteDatabase) {
-        sqLiteDatabase.execSQL(TableItem.create())
+        sqLiteDatabase.execSQL(TableNote.create())
     }
 
     private fun dropTables(sqLiteDatabase: SQLiteDatabase) {

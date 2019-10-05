@@ -1,4 +1,4 @@
-package com.rittamann.minichecklist.ui.checklist
+package com.rittamann.minichecklist.ui.notelist
 
 import android.content.Context
 import android.content.Intent
@@ -9,17 +9,17 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rittamann.minichecklist.R
-import com.rittamann.minichecklist.data.base.Item
-import com.rittamann.minichecklist.ui.keepitem.KeepItemActivity
+import com.rittamann.minichecklist.data.base.Note
+import com.rittamann.minichecklist.ui.keepnote.KeepNoteActivity
 import com.rittamann.minichecklist.utils.Constants
 
-class RecyclerAdapterItem(private val context: Context, private val list: List<Item>) :
-    RecyclerView.Adapter<RecyclerAdapterItem.ViewHolderItem>() {
+class RecyclerAdapterNote(private val context: Context, private val list: List<Note>) :
+    RecyclerView.Adapter<RecyclerAdapterNote.ViewHolderItem>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderItem {
         return ViewHolderItem(
             LayoutInflater.from(context).inflate(
-                R.layout.adapter_recycker_item,
+                R.layout.adapter_recycler_note,
                 parent,
                 false
             )
@@ -41,7 +41,7 @@ class RecyclerAdapterItem(private val context: Context, private val list: List<I
             }
         }
         holder.layout.setOnClickListener {
-            Intent(context, KeepItemActivity::class.java).apply {
+            Intent(context, KeepNoteActivity::class.java).apply {
                 putExtra(Constants.ITEM_ARGS, item)
                 context.startActivity(this)
             }
@@ -64,7 +64,7 @@ class RecyclerAdapterItem(private val context: Context, private val list: List<I
         }
     }
 
-    fun forceUpdate(list: List<Item>) {
+    fun forceUpdate(list: List<Note>) {
         (this.list as ArrayList).apply {
             clear()
             addAll(list)

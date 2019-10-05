@@ -27,7 +27,7 @@ object Table {
     const val CREATE = "CREATE TABLE IF NOT EXISTS"
 }
 
-object TableItem {
+object TableNote {
     const val TABLE = "tb_item"
     const val ID = "id_item"
     const val CONTENT = "content_item"

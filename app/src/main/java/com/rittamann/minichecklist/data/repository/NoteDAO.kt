@@ -3,44 +3,44 @@ package com.rittamann.minichecklist.data.repository
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import com.rittamann.minichecklist.data.base.Item
+import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.data.repository.config.ContentValuesDAO
 import com.rittamann.minichecklist.data.repository.config.CursorDAO
 import com.rittamann.minichecklist.data.repository.config.HelperDAO
 import com.rittamann.minichecklist.data.repository.config.ManagerDAO
 import com.rittamann.minichecklist.data.repository.config.QueryDAO
-import com.rittamann.minichecklist.data.repository.config.TableItem
+import com.rittamann.minichecklist.data.repository.config.TableNote
 
-class CheckListDAO(context: Context) {
+class NoteDAO(context: Context) {
     private val managerDAO = ManagerDAO(HelperDAO(context))
 
-    fun insert(item: Item): Long {
+    fun insert(item: Note): Long {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableItem.TABLE, TableItem.ID).insert(it, ContentValuesDAO.item(item), true)
+            GenericDAO(TableNote.TABLE, TableNote.ID).insert(it, ContentValuesDAO.item(item), true)
         } ?: 0L
     }
 
-    fun update(item: Item): Boolean {
+    fun update(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableItem.TABLE, TableItem.ID).update(it, ContentValuesDAO.item(item), item.id, true)
+            GenericDAO(TableNote.TABLE, TableNote.ID).update(it, ContentValuesDAO.item(item), item.id, true)
         } ?: false
     }
 
-    fun delete(item: Item): Boolean {
+    fun delete(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableItem.TABLE, TableItem.ID).delete(it, item.id, true)
+            GenericDAO(TableNote.TABLE, TableNote.ID).delete(it, item.id, true)
         } ?: false
     }
 
-    fun getAll(ordenation: String = ""): ArrayList<Item> {
+    fun getAll(ordenation: String = ""): ArrayList<Note> {
         managerDAO.openRead()
         managerDAO.db?.apply {
             return get(
                 rawQuery(
-                    "SELECT * FROM ${TableItem.TABLE} ${QueryDAO.orderBy(TableItem.ID, ordenation)};"
+                    "SELECT * FROM ${TableNote.TABLE} ${QueryDAO.orderBy(TableNote.ID, ordenation)};"
                     , null
                 )
             )
@@ -48,8 +48,8 @@ class CheckListDAO(context: Context) {
         return ArrayList()
     }
 
-    private fun get(cursor: Cursor?): ArrayList<Item> {
-        val list = ArrayList<Item>()
+    private fun get(cursor: Cursor?): ArrayList<Note> {
+        val list = ArrayList<Note>()
         cursor?.apply {
             if (count > 0) {
                 while (moveToNext()) {
@@ -62,11 +62,11 @@ class CheckListDAO(context: Context) {
         return list
     }
 
-    fun setChecked(item: Item): Boolean {
+    fun setChecked(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableItem.TABLE, TableItem.ID).update(it, ContentValues().apply {
-                put(TableItem.CHECKED, item.checked)
+            GenericDAO(TableNote.TABLE, TableNote.ID).update(it, ContentValues().apply {
+                put(TableNote.CHECKED, item.checked)
             }, item.id, true)
         } ?: false
     }

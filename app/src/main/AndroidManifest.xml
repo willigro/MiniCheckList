@@ -9,9 +9,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.keepitem.KeepItemActivity">
+        <activity android:name=".ui.keepnote.KeepNoteActivity">
         </activity>
-        <activity android:name=".ui.checklist.CheckListActivity">
+        <activity android:name=".ui.notelist.NoteListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

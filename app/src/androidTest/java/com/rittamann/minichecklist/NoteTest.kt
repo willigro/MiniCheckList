@@ -1,20 +1,20 @@
 package com.rittamann.minichecklist
 
-import com.rittamann.minichecklist.data.base.Item
+import com.rittamann.minichecklist.data.base.Note
 import org.junit.Assert
 import org.junit.Test
 import java.util.*
 
-class ItemTest {
+class NoteTest {
 
     @Test
     fun new_item() {
-        Assert.assertNotNull(Item())
+        Assert.assertNotNull(Note())
     }
 
     @Test
     fun new_item_set_id_and_name() {
-        val item = Item().apply {
+        val item = Note().apply {
             id = 1
             content = "New item"
         }
@@ -27,7 +27,7 @@ class ItemTest {
     fun new_item_set_date() {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 2)
-        val item = Item().apply {
+        val item = Note().apply {
             createCate = calendar
         }
         val calendarTest = Calendar.getInstance()

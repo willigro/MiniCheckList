@@ -1,9 +1,9 @@
 package com.rittamann.minichecklist.data.base
 
 import java.io.Serializable
-import java.util.*
+import java.util.Calendar
 
-class Item(
+class Note(
     var id: Long = 0L,
     var content: String = "",
     var createCate: Calendar = Calendar.getInstance(),

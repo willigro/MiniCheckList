@@ -2,10 +2,10 @@ package com.rittamann.minichecklist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.InstrumentationRegistry
-import com.rittamann.minichecklist.data.base.Item
-import com.rittamann.minichecklist.data.repository.CheckListDAO
-import com.rittamann.minichecklist.ui.keepitem.KeepItemModel
-import com.rittamann.minichecklist.ui.keepitem.KeepItemViewModel
+import com.rittamann.minichecklist.data.base.Note
+import com.rittamann.minichecklist.data.repository.NoteDAO
+import com.rittamann.minichecklist.ui.keepnote.KeepNoteModel
+import com.rittamann.minichecklist.ui.keepnote.KeepNoteViewModel
 import org.junit.Assert
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -13,20 +13,20 @@ import org.junit.Test
 import org.junit.runners.MethodSorters
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class KeepItemViewModelTest {
+class KeepNoteViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    private val viewModel = KeepItemViewModel(KeepItemModel(context()))
+    private val viewModel = KeepNoteViewModel(KeepNoteModel(context()))
     private fun context() = InstrumentationRegistry.getTargetContext()
-    private val checkListDAO = CheckListDAO(context())
+    private val checkListDAO = NoteDAO(context())
 
     @Test
     fun update_item() {
-        Item().apply {
+        Note().apply {
             content = "Inicio"
             id = checkListDAO.insert(this)
-            viewModel.attachItem(this)
-            viewModel.getItemAttached().observeOnce {
+            viewModel.attachNote(this)
+            viewModel.getNoteAttached().observeOnce {
                 Assert.assertNotNull(it)
                 Assert.assertNotEquals("Inicio", it.content)
             }
@@ -41,11 +41,11 @@ class KeepItemViewModelTest {
 
     @Test
     fun update_item_with_id_wrong() {
-        Item().apply {
+        Note().apply {
             content = "Inicio"
             checkListDAO.insert(this)
-            viewModel.attachItem(this)
-            viewModel.getItemAttached().observeOnce {
+            viewModel.attachNote(this)
+            viewModel.getNoteAttached().observeOnce {
                 Assert.assertNotNull(it)
                 Assert.assertNotEquals("Inicio", it.content)
             }

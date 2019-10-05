@@ -1,4 +1,4 @@
-package com.rittamann.minichecklist.ui.keepitem
+package com.rittamann.minichecklist.ui.keepnote
 
 import android.os.Bundle
 import android.text.Editable
@@ -7,27 +7,27 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.rittamann.minichecklist.R
-import com.rittamann.minichecklist.data.base.Item
+import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.utils.Constants
 import com.rittamann.minichecklist.utils.DialogUtil
-import kotlinx.android.synthetic.main.activity_keep_item.editTextContent
+import kotlinx.android.synthetic.main.activity_keep_note.editTextContent
 import kotlinx.android.synthetic.main.toolbar.viewDelete
 import java.util.Timer
 import kotlin.concurrent.schedule
 
-class KeepItemActivity : BaseActivity() {
+class KeepNoteActivity : BaseActivity() {
 
-    private lateinit var viewModel: KeepItemViewModel
+    private lateinit var viewModel: KeepNoteViewModel
     private var timer: Timer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_keep_item)
-        viewModel = KeepItemViewModel(KeepItemModel(this))
+        setContentView(R.layout.activity_keep_note)
+        viewModel = KeepNoteViewModel(KeepNoteModel(this))
         initView()
         initObserver()
-        viewModel.attachItem(intent!!.extras!!.getSerializable(Constants.ITEM_ARGS)!! as Item)
+        viewModel.attachNote(intent!!.extras!!.getSerializable(Constants.ITEM_ARGS)!! as Note)
     }
 
     private fun initView() {
@@ -55,7 +55,7 @@ class KeepItemActivity : BaseActivity() {
         })
 
         viewDelete.setOnClickListener {
-            val dialog = DialogUtil().initConfirm(this@KeepItemActivity, getString(R.string.do_you_wish_remove_item))
+            val dialog = DialogUtil().initConfirm(this@KeepNoteActivity, getString(R.string.do_you_wish_remove_item))
             dialog.showConfirm(View.OnClickListener {
                 viewModel.deleteItem()
                 dialog.dismiss()
@@ -68,7 +68,7 @@ class KeepItemActivity : BaseActivity() {
     }
 
     private fun initObserver() {
-        viewModel.getItemAttached()
+        viewModel.getNoteAttached()
             .observe(this, Observer { item ->
                 item?.also {
                     editTextContent.setText(it.content)
@@ -76,10 +76,10 @@ class KeepItemActivity : BaseActivity() {
                 }
             })
 
-        viewModel.getDeleteItemResult().observe(this, Observer { deleted ->
+        viewModel.getDeleteNoteResult().observe(this, Observer { deleted ->
             if (deleted!!) {
                 Toast.makeText(
-                    this@KeepItemActivity,
+                    this@KeepNoteActivity,
                     getString(R.string.item_deleted),
                     Toast.LENGTH_LONG
                 ).show()

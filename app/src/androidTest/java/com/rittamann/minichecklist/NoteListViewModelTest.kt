@@ -2,10 +2,10 @@ package com.rittamann.minichecklist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.InstrumentationRegistry
-import com.rittamann.minichecklist.data.base.Item
-import com.rittamann.minichecklist.data.repository.CheckListDAO
-import com.rittamann.minichecklist.ui.checklist.CheckListModel
-import com.rittamann.minichecklist.ui.checklist.CheckListViewModel
+import com.rittamann.minichecklist.data.base.Note
+import com.rittamann.minichecklist.data.repository.NoteDAO
+import com.rittamann.minichecklist.ui.notelist.NoteListModel
+import com.rittamann.minichecklist.ui.notelist.NoteListViewModel
 import org.junit.Assert
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -13,16 +13,16 @@ import org.junit.Test
 import org.junit.runners.MethodSorters
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class CheckListViewModelTest {
+class NoteListViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    private val viewModel = CheckListViewModel(CheckListModel(context()))
+    private val viewModel = NoteListViewModel(NoteListModel(context()))
     private fun context() = InstrumentationRegistry.getTargetContext()
 
     @Test
     fun add_new_item() {
-        viewModel.addItem(Item(id = 1, content = "Novo item"))
+        viewModel.addNote(Note(id = 1, content = "Novo item"))
         viewModel.getNewItemReuslt().observeOnce {
             Assert.assertNotNull(it)
             Assert.assertNotEquals(0, it.id)
@@ -31,9 +31,9 @@ class CheckListViewModelTest {
 
     @Test
     fun check_item() {
-        val item = Item()
-        item.id = CheckListDAO(context()).insert(item)
-        viewModel.checkItem(item)
+        val item = Note()
+        item.id = NoteDAO(context()).insert(item)
+        viewModel.checkNote(item)
         viewModel.getCheckResult().observeOnce {
             Assert.assertTrue(it)
         }
@@ -44,9 +44,9 @@ class CheckListViewModelTest {
 
     @Test
     fun uncheck_item() {
-        val item = Item()
-        item.id = CheckListDAO(context()).insert(item)
-        viewModel.uncheckItem(item)
+        val item = Note()
+        item.id = NoteDAO(context()).insert(item)
+        viewModel.uncheckNote(item)
         viewModel.getUncheckResult().observeOnce {
             Assert.assertTrue(it)
         }
@@ -57,8 +57,8 @@ class CheckListViewModelTest {
 
     @Test
     fun check_item_without_id() {
-        val item = Item()
-        viewModel.checkItem(item)
+        val item = Note()
+        viewModel.checkNote(item)
         viewModel.getCheckResult().observeOnce {
             Assert.assertFalse(it)
         }
@@ -69,8 +69,8 @@ class CheckListViewModelTest {
 
     @Test
     fun uncheck_item_without_id() {
-        val item = Item()
-        viewModel.uncheckItem(item)
+        val item = Note()
+        viewModel.uncheckNote(item)
         viewModel.getUncheckResult().observeOnce {
             Assert.assertFalse(it)
         }
