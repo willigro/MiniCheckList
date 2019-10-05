@@ -27,14 +27,24 @@ object DateUtil {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun parseDateRepresentative(string: String): Calendar {
+    fun parseDateRepresentative(date: String): Calendar {
         val calendar = Calendar.getInstance()
         try {
-            calendar.time = SimpleDateFormat(DATE_REPRESENTATIVE).parse(string)!!
+            calendar.time = SimpleDateFormat(DATE_REPRESENTATIVE).parse(date)!!
         } catch (e: ParseException) {
             e.printStackTrace()
         }
         return calendar
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun parseDateRepresentative(calendar: Calendar): String {
+        try {
+            return SimpleDateFormat(DATE_REPRESENTATIVE).format(calendar.time)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return ""
     }
 
     @SuppressLint("SimpleDateFormat")

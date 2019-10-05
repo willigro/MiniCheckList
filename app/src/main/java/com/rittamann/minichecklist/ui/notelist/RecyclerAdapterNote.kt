@@ -12,6 +12,7 @@ import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.ui.keepnote.KeepNoteActivity
 import com.rittamann.minichecklist.utils.Constants
+import com.rittamann.minichecklist.utils.DateUtil
 
 class RecyclerAdapterNote(private val context: Context, private val list: List<Note>) :
     RecyclerView.Adapter<RecyclerAdapterNote.ViewHolderItem>() {
@@ -29,8 +30,9 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: ViewHolderItem, position: Int) {
-        val item = list[holder.adapterPosition]
-        item.content.also {
+        val note = list[holder.adapterPosition]
+        holder.createdDate.text = DateUtil.parseDateRepresentative(note.createCate)
+        note.content.also {
             holder.title.apply {
                 text = if (it.isEmpty()) {
                     setTextColor(ContextCompat.getColor(context, R.color.textColorLight))
@@ -42,7 +44,7 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
         }
         holder.layout.setOnClickListener {
             Intent(context, KeepNoteActivity::class.java).apply {
-                putExtra(Constants.ITEM_ARGS, item)
+                putExtra(Constants.ITEM_ARGS, note)
                 context.startActivity(this)
             }
         }
@@ -75,5 +77,6 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.txtTitle)
         val layout: View = itemView.findViewById(R.id.adapterLayout)
+        val createdDate: TextView = itemView.findViewById(R.id.txtCreatedDate)
     }
 }
