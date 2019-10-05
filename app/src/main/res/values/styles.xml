@@ -38,6 +38,7 @@
 
     <style name="TextViewInfo" parent="TextView">
         <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/textColorLight</item>
     </style>
 
     <style name="EditText">

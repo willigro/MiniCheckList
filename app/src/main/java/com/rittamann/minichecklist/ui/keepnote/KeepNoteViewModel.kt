@@ -11,7 +11,7 @@ class KeepNoteViewModel(private val keepNoteModel: KeepNoteModel) : BaseViewMode
     private val deleteResult: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getNoteAttached() = noteAttached
-    fun getUpdateItemResult() = updateResult
+    fun getUpdateNoteResult() = updateResult
     fun getDeleteNoteResult() = deleteResult
 
     fun attachNote(item: Note) {
@@ -27,7 +27,7 @@ class KeepNoteViewModel(private val keepNoteModel: KeepNoteModel) : BaseViewMode
         }
     }
 
-    fun deleteItem() {
+    fun deleteNote() {
         deleteResult.value = keepNoteModel.delete(noteAttached.value!!)
     }
 }

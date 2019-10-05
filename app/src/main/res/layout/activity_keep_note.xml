@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.keepnote.KeepNoteActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar_keep"/>
 
     <EditText
             android:layout_below="@+id/toolbar"

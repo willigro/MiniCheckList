@@ -6,6 +6,13 @@
                 android:layout_height="wrap_content">
 
     <TextView
+            android:text="@string/status_done"
+            android:layout_centerVertical="true"
+            android:paddingStart="@dimen/padding_toolbar"
+            android:id="@+id/txtStatus"
+            style="@style/TextViewInfo" tools:ignore="RtlCompat,RtlSymmetry"/>
+
+    <TextView
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingEnd="@dimen/padding_toolbar"

@@ -31,7 +31,7 @@ class KeepNoteViewModelTest {
                 Assert.assertNotEquals("Inicio", it.content)
             }
             viewModel.update("Fim")
-            viewModel.getUpdateItemResult().observeOnce {
+            viewModel.getUpdateNoteResult().observeOnce {
                 Assert.assertNotNull(it)
                 Assert.assertNotEquals(0, it.id)
                 Assert.assertNotEquals("Inicio", it.content)
@@ -51,7 +51,7 @@ class KeepNoteViewModelTest {
             }
             id = 10000
             viewModel.update("Fim")
-            viewModel.getUpdateItemResult().observeOnce {
+            viewModel.getUpdateNoteResult().observeOnce {
                 Assert.assertNull(it)
             }
         }

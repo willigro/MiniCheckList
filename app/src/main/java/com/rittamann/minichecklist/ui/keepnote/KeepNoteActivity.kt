@@ -12,7 +12,8 @@ import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.utils.Constants
 import com.rittamann.minichecklist.utils.DialogUtil
 import kotlinx.android.synthetic.main.activity_keep_note.editTextContent
-import kotlinx.android.synthetic.main.toolbar.viewDelete
+import kotlinx.android.synthetic.main.toolbar_keep.txtStatus
+import kotlinx.android.synthetic.main.toolbar_keep.viewDelete
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -57,7 +58,7 @@ class KeepNoteActivity : BaseActivity() {
         viewDelete.setOnClickListener {
             val dialog = DialogUtil().initConfirm(this@KeepNoteActivity, getString(R.string.do_you_wish_remove_item))
             dialog.showConfirm(View.OnClickListener {
-                viewModel.deleteItem()
+                viewModel.deleteNote()
                 dialog.dismiss()
             })
         }
@@ -65,6 +66,7 @@ class KeepNoteActivity : BaseActivity() {
 
     private fun initTimer() {
         timer = Timer("Timer to update content", false)
+        txtStatus.text = getString(R.string.status_reading)
     }
 
     private fun initObserver() {
@@ -85,6 +87,10 @@ class KeepNoteActivity : BaseActivity() {
                 ).show()
                 finish()
             }
+        })
+
+        viewModel.getUpdateNoteResult().observe(this, Observer { updated ->
+            updated?.also { txtStatus.text = getString(R.string.status_done) }
         })
     }
 

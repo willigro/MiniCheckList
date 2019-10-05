@@ -13,7 +13,6 @@
 
     <TextView
             tools:text="Criado em 00/00/000"
-            android:textColor="@color/textColorLight"
             android:id="@+id/txtCreatedDate"
             style="@style/TextViewInfo"/>
     <TextView
