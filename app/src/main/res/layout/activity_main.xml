@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:background="@color/background"
         android:layout_height="match_parent"
         tools:context=".ui.notelist.NoteListActivity">
 
@@ -15,7 +16,6 @@
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonNew"
-            android:text="@string/new_item"
             android:layout_alignParentBottom="true"
-            style="@style/Button"/>
+            style="@style/ButtonNewNote"/>
 </RelativeLayout>

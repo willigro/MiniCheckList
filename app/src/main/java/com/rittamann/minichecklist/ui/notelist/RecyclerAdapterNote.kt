@@ -36,7 +36,7 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
             holder.title.apply {
                 text = if (it.isEmpty()) {
                     setTextColor(ContextCompat.getColor(context, R.color.textColorLight))
-                    "Sem valor"
+                    ""
                 } else {
                     extractTitle(it)
                 }

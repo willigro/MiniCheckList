@@ -1,7 +1,6 @@
 package com.rittamann.minichecklist.ui.keepnote
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,15 +28,27 @@ class KeepNoteActivity : BaseActivity() {
     private lateinit var viewModel: KeepNoteViewModel
     private var activeHifen = false
     private var timer: Timer? = null
+    private var colorSaved = 0
+    private var colorEditing = 0
+    private var colorSelectedOptionBackground = 0
+    private var colorUnselectedOptionBackground = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_keep_note)
+        initColors()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         viewModel = KeepNoteViewModel(KeepNoteModel(this))
         initView()
         initObserver()
         viewModel.attachNote(intent!!.extras!!.getSerializable(Constants.ITEM_ARGS)!! as Note)
+    }
+
+    private fun initColors() {
+        colorSaved = ContextCompat.getColor(this, R.color.textColor)
+        colorEditing = ContextCompat.getColor(this, R.color.textColorLight)
+        colorSelectedOptionBackground = ContextCompat.getColor(this@KeepNoteActivity, R.color.button_new_note)
+        colorUnselectedOptionBackground = ContextCompat.getColor(this@KeepNoteActivity, R.color.textColorLight)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -62,10 +73,10 @@ class KeepNoteActivity : BaseActivity() {
 
         optionHifen.setOnClickListener {
             activeHifen = if (activeHifen) {
-                optionHifen.setBackgroundColor(Color.BLACK)
+                optionHifen.setBackgroundColor(colorUnselectedOptionBackground)
                 false
             } else {
-                optionHifen.setBackgroundColor(ContextCompat.getColor(this@KeepNoteActivity, R.color.colorPrimary))
+                optionHifen.setBackgroundColor(colorSelectedOptionBackground)
                 true
             }
         }
@@ -83,6 +94,7 @@ class KeepNoteActivity : BaseActivity() {
     private fun initTimer() {
         timer = Timer("Timer to update content", false)
         txtStatus.text = getString(R.string.status_reading)
+        txtStatus.setTextColor(colorEditing)
     }
 
     private fun initObserver() {
@@ -106,7 +118,10 @@ class KeepNoteActivity : BaseActivity() {
         })
 
         viewModel.getUpdateNoteResult().observe(this, Observer { updated ->
-            updated?.also { txtStatus.text = getString(R.string.status_done) }
+            updated?.also {
+                txtStatus.text = getString(R.string.status_done)
+                txtStatus.setTextColor(colorSaved)
+            }
         })
     }
 

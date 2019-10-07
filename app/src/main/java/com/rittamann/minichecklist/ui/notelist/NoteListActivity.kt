@@ -3,6 +3,7 @@ package com.rittamann.minichecklist.ui.notelist
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,7 +79,14 @@ class NoteListActivity : BaseActivity() {
                     DividerItemDecoration(
                         this@NoteListActivity,
                         DividerItemDecoration.VERTICAL
-                    )
+                    ).apply {
+                        setDrawable(
+                            ContextCompat.getDrawable(
+                                this@NoteListActivity,
+                                R.drawable.custom_divider_item_decoration
+                            )!!
+                        )
+                    }
                 )
             }
         } else {

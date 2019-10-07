@@ -3,6 +3,7 @@
               android:orientation="vertical"
               android:id="@+id/adapterLayout"
               android:layout_width="match_parent"
+              android:background="@color/background"
               style="@style/Clickable"
               android:paddingStart="@dimen/padding_standard"
               android:paddingLeft="@dimen/padding_standard"

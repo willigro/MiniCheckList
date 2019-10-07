@@ -1,6 +1,6 @@
 <resources>
     <!--General-->
-    <string name="app_name">MiniCheckList</string>
+    <string name="app_name">Notes</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm">Confirmar</string>
     <string name="ok">OK</string>
@@ -9,7 +9,7 @@
     <!--Note List-->
     <string name="error_new_item">Não foi possível criar uma nova nota</string>
     <string name="item_deleted">Item deletado</string>
-    <string name="new_item">Nova nota</string>
+    <string name="new_item">Nova Nota</string>
 
     <!--Keep Note-->
     <string name="do_you_wish_remove_item">Deseja remover esta anotação?</string>
