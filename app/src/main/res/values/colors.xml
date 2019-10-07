@@ -11,6 +11,6 @@
     <color name="textColor">#FFFFFF</color>
 
     <color name="button_new_note">#DD0D3D</color>
-    <!--<color name="textColorLight">#707070</color>-->
-    <!--<color name="textColor">#313131</color>-->
+
+    <color name="conclude">#0258E7</color>
 </resources>
