@@ -9,6 +9,7 @@
     <include layout="@layout/toolbar_keep"/>
 
     <EditText
+            android:overScrollMode="always"
             android:layout_below="@+id/toolbar"
             android:id="@+id/editTextContent"
             android:minLines="10"
