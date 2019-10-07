@@ -12,8 +12,7 @@
             android:layout_marginEnd="@dimen/margin_between_buttons"
             android:id="@+id/btn_cancel"
             android:layout_weight="1"
-            android:text="@string/cancel"
-            style="@style/ButtonOK"/>
+            style="@style/ButtonCancel"/>
 
     <Button
             android:layout_marginStart="@dimen/margin_between_buttons"
@@ -21,5 +20,5 @@
             android:id="@+id/btn_confirm"
             android:layout_weight="1"
             android:text="@string/confirm"
-            style="@style/Button"/>
+            style="@style/ButtonOK"/>
 </LinearLayout>
