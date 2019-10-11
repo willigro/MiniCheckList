@@ -9,6 +9,13 @@ import com.rittamann.minichecklist.ui.keepnote.KeepNoteFragment
 import com.rittamann.minichecklist.ui.notelist.NoteListFragment
 import com.rittamann.minichecklist.utils.FragmentUtil
 
+/**
+ * TODO
+ *  Timer broken if clase still are editing
+ *  Adjustment in list reload
+ *  When clicked in DONE on input the application is broken
+ *  Keep the last keep screen opened when rotate the smartphone
+ * */
 class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
 
     private var isLandscape = false
