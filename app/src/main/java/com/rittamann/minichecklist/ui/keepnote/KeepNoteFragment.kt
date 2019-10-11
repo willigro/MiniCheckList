@@ -8,7 +8,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.rittamann.minichecklist.R
@@ -34,19 +33,23 @@ class KeepNoteFragment : BaseFragment() {
     private var colorEditing = 0
     private var colorSelectedOptionBackground = 0
     private var colorUnselectedOptionBackground = 0
+    private var showArrowBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initColors()
         viewModel = KeepNoteViewModel(KeepNoteModel(activity!!))
-        (activity!! as BaseActivity).arrowBack(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initView()
         initObserver()
-        viewModel.attachNote(arguments!!.getSerializable(Constants.ITEM_ARGS)!! as Note)
+        arguments?.also {
+            viewModel.attachNote(it.getSerializable(Constants.ITEM_ARGS)!! as Note)
+            showArrowBack = it.getBoolean(Constants.SHOW_BACK_ARROW_ARGS)
+        }
+        (activity!! as BaseActivity).arrowBack(showArrowBack)
     }
 
     private fun initColors() {
@@ -149,9 +152,10 @@ class KeepNoteFragment : BaseFragment() {
     companion object {
         const val TIME_TO_UPDATE: Long = 500
 
-        fun newInstance(note: Note) = KeepNoteFragment().apply {
+        fun newInstance(note: Note, showBackArrow: Boolean = true) = KeepNoteFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Constants.ITEM_ARGS, note)
+                putSerializable(Constants.SHOW_BACK_ARROW_ARGS, showBackArrow)
             }
         }
     }

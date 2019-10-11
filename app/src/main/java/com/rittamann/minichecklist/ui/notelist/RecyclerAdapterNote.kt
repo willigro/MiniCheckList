@@ -43,7 +43,7 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
             }
         }
         holder.layout.setOnClickListener {
-            FragmentUtil.add(context as BaseActivity, KeepNoteFragment.newInstance(note), true)
+            (context as NoteListFragment.NotesListener).showNote(note)
         }
     }
 

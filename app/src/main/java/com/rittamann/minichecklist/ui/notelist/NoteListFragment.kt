@@ -1,10 +1,8 @@
 package com.rittamann.minichecklist.ui.notelist
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,17 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
-import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.ui.base.BaseFragment
-import com.rittamann.minichecklist.ui.keepnote.KeepNoteFragment
-import com.rittamann.minichecklist.utils.FragmentUtil
 import kotlinx.android.synthetic.main.fragment_note_list.buttonNew
 import kotlinx.android.synthetic.main.fragment_note_list.recyclerView
 
 class NoteListFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_note_list
-    private var listener: OnFragmentInteractionListener? = null
+    private var listener: NotesListener? = null
     private var adapter: RecyclerAdapterNote? = null
     private lateinit var viewModel: NoteListViewModel
 
@@ -37,8 +32,8 @@ class NoteListFragment : BaseFragment() {
         initObservers()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         viewModel.fetchNoteList()
     }
 
@@ -64,7 +59,7 @@ class NoteListFragment : BaseFragment() {
     }
 
     private fun newItemCreated(item: Note) {
-        FragmentUtil.add(activity!! as BaseActivity, KeepNoteFragment.newInstance(item), true)
+        listener?.showNote(item)
     }
 
     private fun createItemError() {
@@ -102,7 +97,7 @@ class NoteListFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is NotesListener) {
             listener = context
         }
     }
@@ -112,7 +107,7 @@ class NoteListFragment : BaseFragment() {
         listener = null
     }
 
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
+    interface NotesListener {
+        fun showNote(note: Note)
     }
 }
