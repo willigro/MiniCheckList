@@ -1,29 +1,38 @@
 package com.rittamann.minichecklist.ui.notelist
 
-import android.content.Intent
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.ui.base.BaseActivity
-import com.rittamann.minichecklist.ui.keepnote.KeepNoteActivity
-import com.rittamann.minichecklist.utils.Constants
-import kotlinx.android.synthetic.main.activity_main.buttonNew
-import kotlinx.android.synthetic.main.activity_main.recyclerView
+import com.rittamann.minichecklist.ui.base.BaseFragment
+import com.rittamann.minichecklist.ui.keepnote.KeepNoteFragment
+import com.rittamann.minichecklist.utils.FragmentUtil
+import kotlinx.android.synthetic.main.fragment_note_list.buttonNew
+import kotlinx.android.synthetic.main.fragment_note_list.recyclerView
 
-class NoteListActivity : BaseActivity() {
+class NoteListFragment : BaseFragment() {
 
+    override fun getLayoutId() = R.layout.fragment_note_list
+    private var listener: OnFragmentInteractionListener? = null
     private var adapter: RecyclerAdapterNote? = null
     private lateinit var viewModel: NoteListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel = NoteListViewModel(NoteListModel(this))
+        viewModel = NoteListViewModel(NoteListModel(activity!!))
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         initViews()
         initObservers()
     }
@@ -55,15 +64,12 @@ class NoteListActivity : BaseActivity() {
     }
 
     private fun newItemCreated(item: Note) {
-        Intent(this@NoteListActivity, KeepNoteActivity::class.java).apply {
-            putExtra(Constants.ITEM_ARGS, item)
-            startActivity(this)
-        }
+        FragmentUtil.add(activity!! as BaseActivity, KeepNoteFragment.newInstance(item), true)
     }
 
     private fun createItemError() {
         Toast.makeText(
-            this@NoteListActivity,
+            activity!!,
             getString(R.string.error_new_item),
             Toast.LENGTH_LONG
         ).show()
@@ -71,18 +77,18 @@ class NoteListActivity : BaseActivity() {
 
     private fun initRecycler(list: List<Note>) {
         if (adapter == null) {
-            RecyclerAdapterNote(this, list).apply {
+            RecyclerAdapterNote(activity!!, list).apply {
                 adapter = this
                 recyclerView.adapter = this
-                recyclerView.layoutManager = LinearLayoutManager(this@NoteListActivity)
+                recyclerView.layoutManager = LinearLayoutManager(activity!!)
                 recyclerView.addItemDecoration(
                     DividerItemDecoration(
-                        this@NoteListActivity,
+                        activity!!,
                         DividerItemDecoration.VERTICAL
                     ).apply {
                         setDrawable(
                             ContextCompat.getDrawable(
-                                this@NoteListActivity,
+                                activity!!,
                                 R.drawable.custom_divider_item_decoration
                             )!!
                         )
@@ -92,5 +98,21 @@ class NoteListActivity : BaseActivity() {
         } else {
             adapter!!.forceUpdate(list)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    interface OnFragmentInteractionListener {
+        fun onFragmentInteraction(uri: Uri)
     }
 }

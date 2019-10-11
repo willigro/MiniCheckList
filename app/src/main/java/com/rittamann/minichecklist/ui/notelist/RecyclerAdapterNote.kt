@@ -1,7 +1,6 @@
 package com.rittamann.minichecklist.ui.notelist
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
-import com.rittamann.minichecklist.ui.keepnote.KeepNoteActivity
-import com.rittamann.minichecklist.utils.Constants
+import com.rittamann.minichecklist.ui.base.BaseActivity
+import com.rittamann.minichecklist.ui.keepnote.KeepNoteFragment
 import com.rittamann.minichecklist.utils.DateUtil
+import com.rittamann.minichecklist.utils.FragmentUtil
 
 class RecyclerAdapterNote(private val context: Context, private val list: List<Note>) :
     RecyclerView.Adapter<RecyclerAdapterNote.ViewHolderItem>() {
@@ -43,10 +43,7 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
             }
         }
         holder.layout.setOnClickListener {
-            Intent(context, KeepNoteActivity::class.java).apply {
-                putExtra(Constants.ITEM_ARGS, note)
-                context.startActivity(this)
-            }
+            FragmentUtil.add(context as BaseActivity, KeepNoteFragment.newInstance(note), true)
         }
     }
 

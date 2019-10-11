@@ -5,26 +5,28 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.ui.base.BaseActivity
+import com.rittamann.minichecklist.ui.base.BaseFragment
 import com.rittamann.minichecklist.utils.Constants
 import com.rittamann.minichecklist.utils.DialogUtil
-import kotlinx.android.synthetic.main.activity_keep_note.editTextContent
+import kotlinx.android.synthetic.main.fragment_keep_note.editTextContent
 import kotlinx.android.synthetic.main.toolbar_keep.optionHifen
 import kotlinx.android.synthetic.main.toolbar_keep.txtStatus
 import kotlinx.android.synthetic.main.toolbar_keep.viewDelete
 import java.util.Timer
 import kotlin.concurrent.schedule
 
-class KeepNoteActivity : BaseActivity() {
+class KeepNoteFragment : BaseFragment() {
 
+    override fun getLayoutId(): Int = R.layout.fragment_keep_note
     private lateinit var viewModel: KeepNoteViewModel
     private var activeHifen = false
     private var timer: Timer? = null
@@ -35,28 +37,23 @@ class KeepNoteActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_keep_note)
         initColors()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        viewModel = KeepNoteViewModel(KeepNoteModel(this))
+        viewModel = KeepNoteViewModel(KeepNoteModel(activity!!))
+        (activity!! as BaseActivity).arrowBack(true)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         initView()
         initObserver()
-        viewModel.attachNote(intent!!.extras!!.getSerializable(Constants.ITEM_ARGS)!! as Note)
+        viewModel.attachNote(arguments!!.getSerializable(Constants.ITEM_ARGS)!! as Note)
     }
 
     private fun initColors() {
-        colorSaved = ContextCompat.getColor(this, R.color.textColor)
-        colorEditing = ContextCompat.getColor(this, R.color.textColorLight)
-        colorSelectedOptionBackground = ContextCompat.getColor(this@KeepNoteActivity, R.color.button_new_note)
-        colorUnselectedOptionBackground = ContextCompat.getColor(this@KeepNoteActivity, R.color.textColorLight)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+        colorSaved = ContextCompat.getColor(activity!!, R.color.textColor)
+        colorEditing = ContextCompat.getColor(activity!!, R.color.textColorLight)
+        colorSelectedOptionBackground = ContextCompat.getColor(activity!!, R.color.button_new_note)
+        colorUnselectedOptionBackground = ContextCompat.getColor(activity!!, R.color.textColorLight)
     }
 
     @SuppressLint("SetTextI18n")
@@ -64,7 +61,7 @@ class KeepNoteActivity : BaseActivity() {
         editTextContent.addTextChangedListener(textWatcher)
 
         viewDelete.setOnClickListener {
-            val dialog = DialogUtil().initConfirm(this@KeepNoteActivity, getString(R.string.do_you_wish_remove_item))
+            val dialog = DialogUtil().initConfirm(activity!!, getString(R.string.do_you_wish_remove_item))
             dialog.showConfirm(View.OnClickListener {
                 viewModel.deleteNote()
                 dialog.dismiss()
@@ -109,11 +106,11 @@ class KeepNoteActivity : BaseActivity() {
         viewModel.getDeleteNoteResult().observe(this, Observer { deleted ->
             if (deleted!!) {
                 Toast.makeText(
-                    this@KeepNoteActivity,
+                    activity!!,
                     getString(R.string.item_deleted),
                     Toast.LENGTH_LONG
                 ).show()
-                finish()
+                finishFrag()
             }
         })
 
@@ -142,7 +139,7 @@ class KeepNoteActivity : BaseActivity() {
             }
 
             timer!!.schedule(TIME_TO_UPDATE) {
-                runOnUiThread {
+                activity!!.runOnUiThread {
                     viewModel.update(value.toString())
                 }
             }
@@ -151,5 +148,11 @@ class KeepNoteActivity : BaseActivity() {
 
     companion object {
         const val TIME_TO_UPDATE: Long = 500
+
+        fun newInstance(note: Note) = KeepNoteFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(Constants.ITEM_ARGS, note)
+            }
+        }
     }
 }

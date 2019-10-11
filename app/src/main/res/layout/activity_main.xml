@@ -5,17 +5,5 @@
         android:layout_width="match_parent"
         android:background="@color/background"
         android:layout_height="match_parent"
-        tools:context=".ui.notelist.NoteListActivity">
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/buttonNew"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonNew"
-            android:layout_alignParentBottom="true"
-            style="@style/ButtonNewNote"/>
-</RelativeLayout>
+        android:id="@+id/container"
+        tools:context=".ui.base.MainActivity"/>
