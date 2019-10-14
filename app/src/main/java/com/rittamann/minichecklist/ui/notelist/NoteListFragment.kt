@@ -32,8 +32,8 @@ class NoteListFragment : BaseFragment() {
         initObservers()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         viewModel.fetchNoteList()
     }
 
@@ -60,6 +60,10 @@ class NoteListFragment : BaseFragment() {
 
     private fun newItemCreated(item: Note) {
         listener?.showNote(item)
+    }
+
+    fun noteDeleted(note: Note) {
+        adapter?.noteDeleted(note)
     }
 
     private fun createItemError() {
@@ -109,5 +113,6 @@ class NoteListFragment : BaseFragment() {
 
     interface NotesListener {
         fun showNote(note: Note)
+        fun noteDeleted(note: Note)
     }
 }

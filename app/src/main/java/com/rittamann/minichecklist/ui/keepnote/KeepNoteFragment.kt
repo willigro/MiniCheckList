@@ -1,6 +1,7 @@
 package com.rittamann.minichecklist.ui.keepnote
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.ui.base.BaseFragment
+import com.rittamann.minichecklist.ui.notelist.NoteListFragment
 import com.rittamann.minichecklist.utils.Constants
 import com.rittamann.minichecklist.utils.DialogUtil
 import kotlinx.android.synthetic.main.fragment_keep_note.editTextContent
@@ -27,6 +29,7 @@ class KeepNoteFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_keep_note
     private lateinit var viewModel: KeepNoteViewModel
+    private var listener: NoteListFragment.NotesListener? = null
     private var activeHifen = false
     private var timer: Timer? = null
     private var colorSaved = 0
@@ -83,11 +86,10 @@ class KeepNoteFragment : BaseFragment() {
 
         editTextContent.setOnEditorActionListener { textView: TextView, actionId: Int, keyEvent: KeyEvent ->
             if (activeHifen && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                editTextContent.setText("${editTextContent.text}\n- ")
+                editTextContent.setText("${editTextContent.text}\n-\\s ")
                 editTextContent.setSelection(editTextContent.text.length)
-                true
-            } else
-                false
+            }
+            false
         }
     }
 
@@ -106,13 +108,14 @@ class KeepNoteFragment : BaseFragment() {
                 }
             })
 
-        viewModel.getDeleteNoteResult().observe(this, Observer { deleted ->
-            if (deleted!!) {
+        viewModel.getDeleteNoteResult().observe(this, Observer { note ->
+            note?.also {
                 Toast.makeText(
                     activity!!,
                     getString(R.string.item_deleted),
                     Toast.LENGTH_LONG
                 ).show()
+                listener?.noteDeleted(it)
                 finishFrag()
             }
         })
@@ -141,12 +144,24 @@ class KeepNoteFragment : BaseFragment() {
                 initTimer()
             }
 
-            timer!!.schedule(TIME_TO_UPDATE) {
-                activity!!.runOnUiThread {
+            timer?.schedule(TIME_TO_UPDATE) {
+                activity?.runOnUiThread {
                     viewModel.update(value.toString())
                 }
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NoteListFragment.NotesListener) {
+            listener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     companion object {

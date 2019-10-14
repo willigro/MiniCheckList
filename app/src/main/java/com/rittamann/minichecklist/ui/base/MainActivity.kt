@@ -19,6 +19,7 @@ import com.rittamann.minichecklist.utils.FragmentUtil
 class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
 
     private var isLandscape = false
+    private var noteListFragment: NoteListFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +27,9 @@ class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
         isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         FragmentUtil.clear(this)
         if (isLandscape) {
-            FragmentUtil.add(this, NoteListFragment(), R.id.container_left)
+            FragmentUtil.add(this, getNoteListFragment(), R.id.container_left)
         } else {
-            FragmentUtil.add(this, NoteListFragment())
+            FragmentUtil.add(this, getNoteListFragment())
         }
     }
 
@@ -48,5 +49,14 @@ class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
         } else {
             FragmentUtil.add(this, KeepNoteFragment.newInstance(note), true)
         }
+    }
+
+    override fun noteDeleted(note: Note) {
+        noteListFragment?.noteDeleted(note)
+    }
+
+    private fun getNoteListFragment(): NoteListFragment {
+        noteListFragment = NoteListFragment()
+        return noteListFragment as NoteListFragment
     }
 }

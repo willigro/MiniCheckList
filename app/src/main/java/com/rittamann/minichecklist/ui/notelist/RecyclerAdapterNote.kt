@@ -71,6 +71,18 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
         }
     }
 
+    fun noteDeleted(note: Note) {
+        (this.list as ArrayList).apply {
+            for (index in 0 until size) {
+                if (note.id == this[index].id) {
+                    remove(this[index])
+                    notifyItemRemoved(index)
+                    break
+                }
+            }
+        }
+    }
+
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.txtTitle)
         val layout: View = itemView.findViewById(R.id.adapterLayout)
