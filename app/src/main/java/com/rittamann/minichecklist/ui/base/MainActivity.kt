@@ -26,9 +26,7 @@ class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
         isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         FragmentUtil.clear(this)
         if (isLandscape) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.container_left, NoteListFragment(), NoteListFragment::class.java.name)
-                .commit()
+            FragmentUtil.add(this, NoteListFragment(), R.id.container_left)
         } else {
             FragmentUtil.add(this, NoteListFragment())
         }
@@ -46,9 +44,7 @@ class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
     override fun showNote(note: Note) {
         FragmentUtil.clear(this, KeepNoteFragment::class.java.name)
         if (isLandscape) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.container_right, KeepNoteFragment.newInstance(note, false), KeepNoteFragment::class.java.name)
-                .commit()
+            FragmentUtil.add(this, KeepNoteFragment.newInstance(note, false), R.id.container_right)
         } else {
             FragmentUtil.add(this, KeepNoteFragment.newInstance(note), true)
         }

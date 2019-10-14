@@ -7,8 +7,12 @@ import com.rittamann.minichecklist.ui.base.BaseFragment
 
 object FragmentUtil {
     fun add(activity: BaseActivity, fragment: BaseFragment, backStack: Boolean = false) {
+        FragmentUtil.add(activity, fragment, R.id.container, backStack)
+    }
+
+    fun add(activity: BaseActivity, fragment: BaseFragment, container: Int, backStack: Boolean = false) {
         val transaction = activity.supportFragmentManager.beginTransaction()
-        transaction.add(R.id.container, fragment, fragment::class.java.name)
+        transaction.add(container, fragment, fragment::class.java.name)
         if (backStack)
             transaction.addToBackStack("BACK")
         transaction.commit()
