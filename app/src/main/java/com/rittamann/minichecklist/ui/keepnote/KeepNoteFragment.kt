@@ -85,11 +85,12 @@ class KeepNoteFragment : BaseFragment() {
         }
 
         editTextContent.setOnEditorActionListener { textView: TextView, actionId: Int, keyEvent: KeyEvent ->
-            if (activeHifen && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                editTextContent.setText("${editTextContent.text}\n-\\s ")
+            if (activeHifen && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN) {
+                editTextContent.setText("${editTextContent.text}\n- ")
                 editTextContent.setSelection(editTextContent.text.length)
-            }
-            false
+                true
+            } else
+                false
         }
     }
 
