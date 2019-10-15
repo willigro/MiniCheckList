@@ -84,8 +84,8 @@ class KeepNoteFragment : BaseFragment() {
             }
         }
 
-        editTextContent.setOnEditorActionListener { textView: TextView, actionId: Int, keyEvent: KeyEvent ->
-            if (activeHifen && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN) {
+        editTextContent?.setOnEditorActionListener { textView: TextView, actionId: Int, keyEvent: KeyEvent? ->
+            if (activeHifen && keyEvent != null && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN) {
                 editTextContent.setText("${editTextContent.text}\n- ")
                 editTextContent.setSelection(editTextContent.text.length)
                 true
@@ -121,10 +121,11 @@ class KeepNoteFragment : BaseFragment() {
             }
         })
 
-        viewModel.getUpdateNoteResult().observe(this, Observer { updated ->
-            updated?.also {
+        viewModel.getUpdateNoteResult().observe(this, Observer { note ->
+            note?.also {
                 txtStatus.text = getString(R.string.status_done)
                 txtStatus.setTextColor(colorSaved)
+                listener?.noteUpdated(it)
             }
         })
     }

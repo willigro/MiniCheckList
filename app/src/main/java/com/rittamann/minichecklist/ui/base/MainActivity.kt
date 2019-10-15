@@ -11,12 +11,9 @@ import com.rittamann.minichecklist.utils.FragmentUtil
 
 /**
  * TODO
- *  Adjustment in list reload
- *  When clicked in DONE on input the application is broken
  *  Keep the last keep screen opened when rotate the smartphone
  * */
 class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
-
     private var isLandscape = false
     private var noteListFragment: NoteListFragment? = null
 
@@ -57,5 +54,9 @@ class MainActivity : BaseActivity(), NoteListFragment.NotesListener {
     private fun getNoteListFragment(): NoteListFragment {
         noteListFragment = NoteListFragment()
         return noteListFragment as NoteListFragment
+    }
+
+    override fun noteUpdated(note: Note) {
+        noteListFragment?.noteUpdated(note)
     }
 }

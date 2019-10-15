@@ -83,6 +83,18 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
         }
     }
 
+    fun noteUpdated(note: Note) {
+        (list as ArrayList).apply {
+            for (index in 0 until size) {
+                if (note.id == this[index].id) {
+                    this[index] = note
+                    notifyItemChanged(index)
+                    break
+                }
+            }
+        }
+    }
+
     fun newNote(item: Note) {
         var found = false
         for (noteInList in list)

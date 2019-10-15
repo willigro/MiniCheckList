@@ -68,6 +68,10 @@ class NoteListFragment : BaseFragment() {
         adapter?.noteDeleted(note)
     }
 
+    fun noteUpdated(note: Note) {
+        adapter?.noteUpdated(note)
+    }
+
     private fun createItemError() {
         Toast.makeText(
             activity!!,
@@ -116,5 +120,6 @@ class NoteListFragment : BaseFragment() {
     interface NotesListener {
         fun showNote(note: Note)
         fun noteDeleted(note: Note)
+        fun noteUpdated(note: Note)
     }
 }
