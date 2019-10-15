@@ -20,6 +20,7 @@ class NoteListViewModel(private val noteListModel: NoteListModel) : BaseViewMode
     fun addNote(note: Note) {
         note.also {
             note.id = noteListModel.newNote(it)
+            (listNotes.value!! as ArrayList).add(0, note)
             newNoteResult.value = note
         }
     }

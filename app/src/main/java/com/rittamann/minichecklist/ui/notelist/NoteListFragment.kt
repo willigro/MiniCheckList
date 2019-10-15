@@ -59,6 +59,8 @@ class NoteListFragment : BaseFragment() {
     }
 
     private fun newItemCreated(item: Note) {
+        recyclerView.smoothScrollToPosition(0)
+        adapter?.newNote(item)
         listener?.showNote(item)
     }
 

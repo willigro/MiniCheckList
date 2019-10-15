@@ -72,7 +72,7 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
     }
 
     fun noteDeleted(note: Note) {
-        (this.list as ArrayList).apply {
+        (list as ArrayList).apply {
             for (index in 0 until size) {
                 if (note.id == this[index].id) {
                     remove(this[index])
@@ -81,6 +81,20 @@ class RecyclerAdapterNote(private val context: Context, private val list: List<N
                 }
             }
         }
+    }
+
+    fun newNote(item: Note) {
+        var found = false
+        for (noteInList in list)
+            if (noteInList.id == item.id) {
+                found = true
+                break
+            }
+
+        if (found.not()) {
+            (list as ArrayList).add(0, item)
+        }
+        notifyItemInserted(0)
     }
 
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
