@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
@@ -20,6 +21,7 @@ import com.rittamann.minichecklist.utils.Constants
 import com.rittamann.minichecklist.utils.DialogUtil
 import kotlinx.android.synthetic.main.fragment_keep_note.editTextContent
 import kotlinx.android.synthetic.main.toolbar_keep.optionHifen
+import kotlinx.android.synthetic.main.toolbar_keep.optionMode
 import kotlinx.android.synthetic.main.toolbar_keep.txtStatus
 import kotlinx.android.synthetic.main.toolbar_keep.viewDelete
 import java.util.Timer
@@ -91,6 +93,16 @@ class KeepNoteFragment : BaseFragment() {
                 true
             } else
                 false
+        }
+
+        optionMode.setOnClickListener {
+            if (optionMode.text == getString(R.string.mode_write)) {
+                optionMode.text = getString(R.string.mode_read)
+                editTextContent.setRawInputType(InputType.TYPE_NULL)
+            } else {
+                optionMode.text = getString(R.string.mode_write)
+                editTextContent.setRawInputType(InputType.TYPE_CLASS_TEXT)
+            }
         }
     }
 

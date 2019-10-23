@@ -26,13 +26,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="90dp"
             android:gravity="center"
             android:text="@string/minus"
             android:textColor="@color/colorPrimaryDark"
             android:background="@color/textColorLight"
             android:layout_width="30dp"
             style="@style/TextView" tools:ignore="RtlCompat"/>
+
+    <TextView
+            android:id="@+id/optionMode"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/optionHifen"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="@string/mode_write"
+            android:textColor="@color/textColor"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_width="wrap_content"
+            style="@style/TextView"
+            tools:ignore="RtlCompat"/>
 
     <TextView
             android:padding="@dimen/padding_standard"

@@ -21,5 +21,6 @@
             android:scrollbars="vertical"
             style="@style/EditText"
             android:inputType="textMultiLine"
+            android:padding="@dimen/padding_form"
             tools:ignore="Autofill,LabelFor,UnusedAttribute"/>
 </RelativeLayout>
