@@ -2,7 +2,7 @@ package com.rittamann.minichecklist.ui.keepnote
 
 import android.content.Context
 import com.rittamann.minichecklist.data.base.Note
-import com.rittamann.minichecklist.data.repository.NoteDAO
+import com.rittamann.minichecklist.data.repository.dao.config.NoteDAO
 
 class KeepNoteModel(context: Context) {
     private val noteDAO = NoteDAO(context)

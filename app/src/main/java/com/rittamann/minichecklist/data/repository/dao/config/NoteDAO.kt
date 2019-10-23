@@ -1,15 +1,9 @@
-package com.rittamann.minichecklist.data.repository
+package com.rittamann.minichecklist.data.repository.dao.config
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.rittamann.minichecklist.data.base.Note
-import com.rittamann.minichecklist.data.repository.config.ContentValuesDAO
-import com.rittamann.minichecklist.data.repository.config.CursorDAO
-import com.rittamann.minichecklist.data.repository.config.HelperDAO
-import com.rittamann.minichecklist.data.repository.config.ManagerDAO
-import com.rittamann.minichecklist.data.repository.config.QueryDAO
-import com.rittamann.minichecklist.data.repository.config.TableNote
 
 class NoteDAO(context: Context) {
     private val managerDAO = ManagerDAO(HelperDAO(context))
@@ -17,21 +11,24 @@ class NoteDAO(context: Context) {
     fun insert(item: Note): Long {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID).insert(it, ContentValuesDAO.item(item), true)
+            GenericDAO(TableNote.TABLE, TableNote.ID)
+                .insert(it, ContentValuesDAO.item(item), true)
         } ?: 0L
     }
 
     fun update(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID).update(it, ContentValuesDAO.item(item), item.id, true)
+            GenericDAO(TableNote.TABLE, TableNote.ID)
+                .update(it, ContentValuesDAO.item(item), item.id, true)
         } ?: false
     }
 
     fun delete(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID).delete(it, item.id, true)
+            GenericDAO(TableNote.TABLE, TableNote.ID)
+                .delete(it, item.id, true)
         } ?: false
     }
 
@@ -65,7 +62,8 @@ class NoteDAO(context: Context) {
     fun setChecked(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID).update(it, ContentValues().apply {
+            GenericDAO(TableNote.TABLE, TableNote.ID)
+                .update(it, ContentValues().apply {
                 put(TableNote.CHECKED, item.checked)
             }, item.id, true)
         } ?: false

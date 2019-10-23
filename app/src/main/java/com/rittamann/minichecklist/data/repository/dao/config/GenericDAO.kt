@@ -1,4 +1,4 @@
-package com.rittamann.minichecklist.data.repository
+package com.rittamann.minichecklist.data.repository.dao.config
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase

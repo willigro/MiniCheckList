@@ -1,4 +1,4 @@
-package com.rittamann.minichecklist.data.repository.config
+package com.rittamann.minichecklist.data.repository.dao.config
 
 object QueryDAO{
     const val ASC = " ASC "

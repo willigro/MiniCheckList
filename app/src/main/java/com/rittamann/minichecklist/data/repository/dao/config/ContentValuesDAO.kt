@@ -1,4 +1,4 @@
-package com.rittamann.minichecklist.data.repository.config
+package com.rittamann.minichecklist.data.repository.dao.config
 
 import android.content.ContentValues
 import com.rittamann.minichecklist.data.base.Note

@@ -3,7 +3,7 @@ package com.rittamann.minichecklist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.InstrumentationRegistry
 import com.rittamann.minichecklist.data.base.Note
-import com.rittamann.minichecklist.data.repository.NoteDAO
+import com.rittamann.minichecklist.data.repository.dao.config.NoteDAO
 import com.rittamann.minichecklist.ui.notelist.NoteListModel
 import com.rittamann.minichecklist.ui.notelist.NoteListViewModel
 import org.junit.Assert
