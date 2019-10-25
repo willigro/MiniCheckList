@@ -18,6 +18,15 @@ class DialogUtil {
     private val defaultListener = View.OnClickListener { dialog?.dismiss() }
 
     @SuppressLint("InflateParams")
+    fun initConfirm(context: Context, message: String, viewId: Int): DialogUtil {
+        this.dialogView = LayoutInflater.from(context).inflate(viewId, null)
+        this.context = context
+        this.dialogView.findViewById<TextView>(R.id.txt_message).text = message
+        dialogView.findViewById<AppCompatButton>(R.id.btn_cancel).setOnClickListener(defaultListener)
+        return this@DialogUtil
+    }
+
+    @SuppressLint("InflateParams")
     fun initConfirm(context: Context, message: String): DialogUtil {
         this.dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_confirm, null)
         this.context = context

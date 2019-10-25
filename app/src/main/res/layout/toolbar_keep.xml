@@ -61,5 +61,5 @@
             android:layout_width="wrap_content"
             style="@style/TextViewClickable" tools:ignore="RelativeOverlap,RtlCompat,RtlSymmetry"/>
 
-    <include layout="@layout/divider_custom"/>
+    <include layout="@layout/divider_host"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

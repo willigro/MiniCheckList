@@ -1,17 +1,28 @@
-package com.rittamann.minichecklist.data.repository.dao.config
+package com.rittamann.minichecklist.data.repository.dao
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.rittamann.minichecklist.data.base.Note
+import com.rittamann.minichecklist.data.repository.dao.config.ContentValuesDAO
+import com.rittamann.minichecklist.data.repository.dao.config.CursorDAO
+import com.rittamann.minichecklist.data.repository.dao.config.HelperDAO
+import com.rittamann.minichecklist.data.repository.dao.config.ManagerDAO
+import com.rittamann.minichecklist.data.repository.dao.config.QueryDAO
+import com.rittamann.minichecklist.data.repository.dao.config.TableNote
 
 class NoteDAO(context: Context) {
-    private val managerDAO = ManagerDAO(HelperDAO(context))
+    private val managerDAO = ManagerDAO(
+        HelperDAO(context)
+    )
 
     fun insert(item: Note): Long {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID)
+            GenericDAO(
+                TableNote.TABLE,
+                TableNote.ID
+            )
                 .insert(it, ContentValuesDAO.item(item), true)
         } ?: 0L
     }
@@ -19,15 +30,22 @@ class NoteDAO(context: Context) {
     fun update(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID)
-                .update(it, ContentValuesDAO.item(item), item.id, true)
+            GenericDAO(
+                TableNote.TABLE,
+                TableNote.ID
+            )
+                .update(it,
+                    ContentValuesDAO.item(item), item.id, true)
         } ?: false
     }
 
     fun delete(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID)
+            GenericDAO(
+                TableNote.TABLE,
+                TableNote.ID
+            )
                 .delete(it, item.id, true)
         } ?: false
     }
@@ -37,7 +55,10 @@ class NoteDAO(context: Context) {
         managerDAO.db?.apply {
             return get(
                 rawQuery(
-                    "SELECT * FROM ${TableNote.TABLE} ${QueryDAO.orderBy(TableNote.ID, ordenation)};"
+                    "SELECT * FROM ${TableNote.TABLE} ${QueryDAO.orderBy(
+                        TableNote.ID,
+                        ordenation
+                    )};"
                     , null
                 )
             )
@@ -62,7 +83,10 @@ class NoteDAO(context: Context) {
     fun setChecked(item: Note): Boolean {
         managerDAO.openWrite()
         return managerDAO.db?.let {
-            GenericDAO(TableNote.TABLE, TableNote.ID)
+            GenericDAO(
+                TableNote.TABLE,
+                TableNote.ID
+            )
                 .update(it, ContentValues().apply {
                 put(TableNote.CHECKED, item.checked)
             }, item.id, true)

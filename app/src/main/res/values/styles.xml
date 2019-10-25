@@ -20,6 +20,20 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
 
+    <style name="TextViewHost" parent="TextViewClickable">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:text">@string/host</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextViewTitleDialog" parent="TextView">
         <item name="android:textSize">22sp</item>
         <item name="android:layout_gravity">center</item>

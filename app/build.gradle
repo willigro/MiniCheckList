@@ -16,6 +16,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_API_URL", '"http://127.0.0.1:5000/"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -35,4 +38,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'android.arch.core:core-testing'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    ext.retrofit = '2.0.1'
+    ext.okHttp = '3.9.1'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.okhttp3:okhttp:$okHttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
 }

@@ -5,6 +5,7 @@
     <string name="confirm">Confirmar</string>
     <string name="ok">OK</string>
     <string name="delete">Excluir</string>
+    <string name="host">HOST</string>
 
     <!--Note List-->
     <string name="error_new_item">Não foi possível criar uma nova nota</string>
