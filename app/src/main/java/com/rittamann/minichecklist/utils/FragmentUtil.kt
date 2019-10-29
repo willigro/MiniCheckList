@@ -1,9 +1,10 @@
 package com.rittamann.minichecklist.utils
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.ui.base.BaseFragment
-
 
 object FragmentUtil {
     fun add(activity: BaseActivity, fragment: BaseFragment, backStack: Boolean = false) {
@@ -29,6 +30,13 @@ object FragmentUtil {
             fm.findFragmentByTag(name)?.also {
                 fm.beginTransaction().remove(it).commit()
             }
+        }
+    }
+
+    fun dismiss(fragment: Fragment?, fm: FragmentManager) {
+        fragment?.also {
+            fm.beginTransaction().remove(it).commit()
+            fm.popBackStack()
         }
     }
 }

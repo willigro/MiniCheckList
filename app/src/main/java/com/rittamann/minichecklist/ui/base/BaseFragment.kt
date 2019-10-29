@@ -17,7 +17,15 @@ abstract class BaseFragment : Fragment() {
         return inflater.inflate(getLayoutId(), container, false)
     }
 
-    fun finishFrag(){
+    fun finishFrag() {
         activity!!.supportFragmentManager.popBackStack()
+    }
+
+    fun initProgress() {
+        (activity!! as BaseActivity).initProgress()
+    }
+
+    fun finishProgress() {
+        (activity!! as BaseActivity).finishProgress()
     }
 }

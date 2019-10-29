@@ -20,6 +20,6 @@
     <string name="mode_read">Leitura</string>
     <string name="mode_write">Escrita</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Loading-->
+    <string name="loading">Carregando…</string>
 </resources>

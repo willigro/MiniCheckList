@@ -35,6 +35,7 @@ class NoteListFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         viewModel.fetchNoteList()
+        initProgress()
     }
 
     private fun initViews() {
@@ -46,6 +47,7 @@ class NoteListFragment : BaseFragment() {
     private fun initObservers() {
         viewModel.getCheckListResult().observe(this, Observer { list ->
             list?.also { initRecycler(list) }
+            finishProgress()
         })
         viewModel.getNewItemReuslt().observe(this, Observer { item ->
             item?.also {
