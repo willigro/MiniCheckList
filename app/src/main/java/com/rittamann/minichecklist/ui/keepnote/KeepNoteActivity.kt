@@ -1,7 +1,7 @@
 package com.rittamann.minichecklist.ui.keepnote
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -15,11 +15,10 @@ import androidx.lifecycle.Observer
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
 import com.rittamann.minichecklist.ui.base.BaseActivity
-import com.rittamann.minichecklist.ui.base.BaseFragment
-import com.rittamann.minichecklist.ui.notelist.NoteListFragment
 import com.rittamann.minichecklist.utils.Constants
 import com.rittamann.minichecklist.utils.DialogUtil
-import kotlinx.android.synthetic.main.fragment_keep_note.editTextContent
+import com.rittamann.minichecklist.utils.ResultCode
+import kotlinx.android.synthetic.main.activity_keep_note.editTextContent
 import kotlinx.android.synthetic.main.toolbar_keep.optionHifen
 import kotlinx.android.synthetic.main.toolbar_keep.optionMode
 import kotlinx.android.synthetic.main.toolbar_keep.txtStatus
@@ -27,41 +26,33 @@ import kotlinx.android.synthetic.main.toolbar_keep.viewDelete
 import java.util.Timer
 import kotlin.concurrent.schedule
 
-class KeepNoteFragment : BaseFragment() {
+class KeepNoteActivity : BaseActivity() {
 
-    override fun getLayoutId(): Int = R.layout.fragment_keep_note
     private lateinit var viewModel: KeepNoteViewModel
-    private var listener: NoteListFragment.NotesListener? = null
     private var activeHifen = false
     private var timer: Timer? = null
     private var colorSaved = 0
     private var colorEditing = 0
     private var colorSelectedOptionBackground = 0
     private var colorUnselectedOptionBackground = 0
-    private var showArrowBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_keep_note)
         initColors()
-        viewModel = KeepNoteViewModel(KeepNoteModel(activity!!))
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        viewModel = KeepNoteViewModel(KeepNoteModel(this))
         initView()
         initObserver()
-        arguments?.also {
-            viewModel.attachNote(it.getSerializable(Constants.ITEM_ARGS)!! as Note)
-            showArrowBack = it.getBoolean(Constants.SHOW_BACK_ARROW_ARGS)
+        intent?.also {
+            viewModel.attachNote(it.getSerializableExtra(Constants.ITEM_ARGS)!! as Note)
         }
-        (activity!! as BaseActivity).arrowBack(showArrowBack)
     }
 
     private fun initColors() {
-        colorSaved = ContextCompat.getColor(activity!!, R.color.textColor)
-        colorEditing = ContextCompat.getColor(activity!!, R.color.textColorLight)
-        colorSelectedOptionBackground = ContextCompat.getColor(activity!!, R.color.button_new_note)
-        colorUnselectedOptionBackground = ContextCompat.getColor(activity!!, R.color.textColorLight)
+        colorSaved = ContextCompat.getColor(this, R.color.textColor)
+        colorEditing = ContextCompat.getColor(this, R.color.textColorLight)
+        colorSelectedOptionBackground = ContextCompat.getColor(this, R.color.button_new_note)
+        colorUnselectedOptionBackground = ContextCompat.getColor(this, R.color.textColorLight)
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,7 +60,7 @@ class KeepNoteFragment : BaseFragment() {
         editTextContent.addTextChangedListener(textWatcher)
 
         viewDelete.setOnClickListener {
-            val dialog = DialogUtil().initConfirm(activity!!, getString(R.string.do_you_wish_remove_item))
+            val dialog = DialogUtil().initConfirm(this, getString(R.string.do_you_wish_remove_item))
             dialog.showConfirm(View.OnClickListener {
                 viewModel.deleteNote()
                 dialog.dismiss()
@@ -124,12 +115,15 @@ class KeepNoteFragment : BaseFragment() {
         viewModel.getDeleteNoteResult().observe(this, Observer { note ->
             note?.also {
                 Toast.makeText(
-                    activity!!,
+                    this,
                     getString(R.string.item_deleted),
                     Toast.LENGTH_LONG
                 ).show()
-                listener?.noteDeleted(it)
-                finishFrag()
+                Intent().apply {
+                    putExtra(Constants.ITEM_ARGS, it)
+                    setResult(ResultCode.DELETED_NOTE, this)
+                    finish()
+                }
             }
         })
 
@@ -137,9 +131,16 @@ class KeepNoteFragment : BaseFragment() {
             note?.also {
                 txtStatus.text = getString(R.string.status_done)
                 txtStatus.setTextColor(colorSaved)
-                listener?.noteUpdated(it)
             }
         })
+    }
+
+    override fun onBackPressed() {
+        Intent().apply {
+            putExtra(Constants.ITEM_ARGS, viewModel.getNoteAttached().value)
+            setResult(ResultCode.UPDATED_NOTE, this)
+            finish()
+        }
     }
 
     private val textWatcher = object : TextWatcher {
@@ -159,33 +160,14 @@ class KeepNoteFragment : BaseFragment() {
             }
 
             timer?.schedule(TIME_TO_UPDATE) {
-                activity?.runOnUiThread {
+                runOnUiThread {
                     viewModel.update(value.toString())
                 }
             }
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is NoteListFragment.NotesListener) {
-            listener = context
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
     companion object {
         const val TIME_TO_UPDATE: Long = 500
-
-        fun newInstance(note: Note, showBackArrow: Boolean = true) = KeepNoteFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(Constants.ITEM_ARGS, note)
-                putSerializable(Constants.SHOW_BACK_ARROW_ARGS, showBackArrow)
-            }
-        }
     }
 }

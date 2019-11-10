@@ -1,6 +1,6 @@
 package com.rittamann.minichecklist.ui.notelist
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -10,14 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
+import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.ui.base.BaseFragment
+import com.rittamann.minichecklist.ui.keepnote.KeepNoteActivity
+import com.rittamann.minichecklist.utils.Constants
+import com.rittamann.minichecklist.utils.RequestCode
+import com.rittamann.minichecklist.utils.ResultCode
 import kotlinx.android.synthetic.main.fragment_note_list.buttonNew
 import kotlinx.android.synthetic.main.fragment_note_list.recyclerView
 
 class NoteListFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_note_list
-    private var listener: NotesListener? = null
     private var adapter: RecyclerAdapterNote? = null
     private lateinit var viewModel: NoteListViewModel
 
@@ -30,6 +34,18 @@ class NoteListFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initViews()
         initObservers()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RequestCode.KEEP_NOTE) {
+            data?.also {
+                when (resultCode) {
+                    ResultCode.DELETED_NOTE -> noteDeleted(it.getSerializableExtra(Constants.ITEM_ARGS) as Note)
+                    ResultCode.UPDATED_NOTE -> noteUpdated(it.getSerializableExtra(Constants.ITEM_ARGS) as Note)
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -63,7 +79,10 @@ class NoteListFragment : BaseFragment() {
     private fun newItemCreated(item: Note) {
         recyclerView.smoothScrollToPosition(0)
         adapter?.newNote(item)
-        listener?.showNote(item)
+        Intent(activity!!, KeepNoteActivity::class.java).apply {
+            putExtra(Constants.ITEM_ARGS, item)
+            startActivity(this)
+        }
     }
 
     fun noteDeleted(note: Note) {
@@ -84,7 +103,7 @@ class NoteListFragment : BaseFragment() {
 
     private fun initRecycler(list: List<Note>) {
         if (adapter == null) {
-            RecyclerAdapterNote(activity!!, list).apply {
+            RecyclerAdapterNote(activity!! as BaseActivity, list).apply {
                 adapter = this
                 recyclerView.adapter = this
                 recyclerView.layoutManager = LinearLayoutManager(activity!!)
@@ -105,23 +124,5 @@ class NoteListFragment : BaseFragment() {
         } else {
             adapter!!.forceUpdate(list)
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is NotesListener) {
-            listener = context
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-    interface NotesListener {
-        fun showNote(note: Note)
-        fun noteDeleted(note: Note)
-        fun noteUpdated(note: Note)
     }
 }
