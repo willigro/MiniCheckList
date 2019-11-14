@@ -4,9 +4,9 @@ import android.content.Context
 import com.rittamann.minichecklist.BuildConfig
 import retrofit2.Call
 import retrofit2.http.Headers
-import com.rittamann.minichecklist.data.base.NoteBody
+import com.rittamann.minichecklist.data.repository.network.body.NoteBody
 import com.rittamann.minichecklist.data.base.NoteResponse
-import com.rittamann.minichecklist.utils.Constants
+import com.rittamann.minichecklist.data.repository.network.response.RegisterNoteResponse
 import com.rittamann.minichecklist.utils.SharedPreferencesUtil
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +21,7 @@ const val CONTENT_TYPE_JSON = "Content-Type:application/json"
 interface RestApi {
     @Headers(CONTENT_TYPE_JSON)
     @POST("note")
-    fun registerNote(@Body noteBody: NoteBody): Call<Void>
+    fun registerNote(@Body noteBody: NoteBody): Call<RegisterNoteResponse>
 
     @Headers(CONTENT_TYPE_JSON)
     @PUT("note/{id}")

@@ -53,9 +53,9 @@ class ClientApi {
 
             return builder
                 .cache(myCache)
-                .readTimeout(requestTimeout, TimeUnit.MINUTES)
-                .writeTimeout(requestTimeout, TimeUnit.MINUTES)
-                .connectTimeout(requestTimeout, TimeUnit.MINUTES)
+                .readTimeout(requestTimeout, TimeUnit.SECONDS)
+                .writeTimeout(requestTimeout, TimeUnit.SECONDS)
+                .connectTimeout(requestTimeout, TimeUnit.SECONDS)
                 .addInterceptor(logging)
                 .build()
         } catch (e: Exception) {

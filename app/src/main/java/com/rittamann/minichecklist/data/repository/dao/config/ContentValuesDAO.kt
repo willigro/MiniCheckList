@@ -7,6 +7,7 @@ import com.rittamann.minichecklist.utils.DateUtil
 object ContentValuesDAO {
 
     fun item(item: Note) = ContentValues().apply {
+        put(TableNote.ID_API, item.idApi)
         put(TableNote.CONTENT, item.content)
         put(TableNote.CHECKED, if (item.checked) 1 else 0)
         put(TableNote.CREATE_DATE, DateUtil.dbFormat(item.createCate))

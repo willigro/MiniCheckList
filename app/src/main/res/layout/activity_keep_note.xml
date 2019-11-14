@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:background="@color/background"
         android:layout_height="match_parent"
-        tools:context=".ui.keepnote.KeepNoteFragment">
+        tools:context=".ui.keepnote.KeepNoteActivity">
 
     <include layout="@layout/toolbar_keep"/>
 

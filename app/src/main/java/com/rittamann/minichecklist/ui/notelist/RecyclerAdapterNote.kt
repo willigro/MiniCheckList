@@ -32,23 +32,32 @@ class RecyclerAdapterNote(private val baseActivity: BaseActivity, private val li
 
     override fun onBindViewHolder(holder: ViewHolderItem, position: Int) {
         val note = list[holder.adapterPosition]
-        holder.createdDate.text = DateUtil.parseDateRepresentative(note.createCate)
-        note.content.also {
-            holder.title.apply {
-                text = if (it.isEmpty()) {
-                    setTextColor(ContextCompat.getColor(context, R.color.textColorLight))
-                    ""
-                } else {
-                    extractTitle(it)
-                }
-            }
-        }
+        bindNote(holder, note)
         holder.layout.setOnClickListener {
             Intent(baseActivity, KeepNoteActivity::class.java).apply {
                 putExtra(Constants.ITEM_ARGS, note)
                 (baseActivity).startActivityForResult(this, RequestCode.KEEP_NOTE)
             }
         }
+    }
+
+    private fun bindNote(holder: ViewHolderItem, note: Note) {
+        note.content.also {
+            holder.title.apply {
+                text = if (it.isEmpty()) {
+                    ""
+                } else {
+                    extractTitle(it)
+                }
+            }
+        }
+
+
+        val date = DateUtil.parseDateRepresentative(note.createCate)
+        holder.createdDate.text = if (note.idApi > 0) {
+            "$date - registrado na nuvem"
+        } else
+            date
     }
 
     private fun extractTitle(title: String): String {

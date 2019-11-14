@@ -1,6 +1,5 @@
 package com.rittamann.minichecklist.data.base
 
-import com.rittamann.minichecklist.utils.DateUtil
 import java.io.Serializable
 import java.util.Calendar
 
@@ -10,6 +9,8 @@ class Note(
     var createCate: Calendar = Calendar.getInstance(),
     var checked: Boolean = false
 ) : Serializable {
+    var idApi: Long = 0L
+
     fun getDay() = createCate.get(Calendar.DAY_OF_MONTH)
 
     companion object {

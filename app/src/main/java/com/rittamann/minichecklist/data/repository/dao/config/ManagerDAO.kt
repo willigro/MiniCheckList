@@ -30,12 +30,14 @@ object Table {
 object TableNote {
     const val TABLE = "tb_item"
     const val ID = "id_item"
+    const val ID_API = "id_api_item"
     const val CONTENT = "content_item"
     const val CREATE_DATE = "create_date_item"
     const val CHECKED = "checked_item"
 
     fun create() = "${Table.CREATE} $TABLE (" +
             "$ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "$ID_API INTEGER," +
             "$CREATE_DATE TEXT NULL, " +
             "$CONTENT TEXT NULL, " +
             "$CHECKED INTEGER DEFAULT 0);"

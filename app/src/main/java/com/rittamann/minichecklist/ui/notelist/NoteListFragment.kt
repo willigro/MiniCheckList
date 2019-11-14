@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.rittamann.minichecklist.R
 import com.rittamann.minichecklist.data.base.Note
+import com.rittamann.minichecklist.data.repository.network.NoteServiceImpl
+import com.rittamann.minichecklist.data.repository.network.RestApi
 import com.rittamann.minichecklist.ui.base.BaseActivity
 import com.rittamann.minichecklist.ui.base.BaseFragment
 import com.rittamann.minichecklist.ui.keepnote.KeepNoteActivity
@@ -18,6 +20,7 @@ import com.rittamann.minichecklist.utils.RequestCode
 import com.rittamann.minichecklist.utils.ResultCode
 import kotlinx.android.synthetic.main.fragment_note_list.buttonNew
 import kotlinx.android.synthetic.main.fragment_note_list.recyclerView
+import java.io.Serializable
 
 class NoteListFragment : BaseFragment() {
 
@@ -27,7 +30,10 @@ class NoteListFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = NoteListViewModel(NoteListModel(activity!!))
+        viewModel = NoteListViewModel(
+            NoteListModel(activity!!),
+            NoteServiceImpl(RestApi.invoke(activity!!))
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -65,14 +71,17 @@ class NoteListFragment : BaseFragment() {
             list?.also { initRecycler(list) }
             finishProgress()
         })
-        viewModel.getNewItemReuslt().observe(this, Observer { item ->
-            item?.also {
+        viewModel.getNewItemReuslt().observe(this, Observer { note ->
+            note?.also {
                 if (it.id > 0) {
                     newItemCreated(it)
                 } else {
                     createItemError()
                 }
             }
+        })
+        viewModel.getNoteRegisteredInApiResult().observe(this, Observer { note ->
+            note?.also { adapter?.noteUpdated(note) }
         })
     }
 
@@ -124,5 +133,9 @@ class NoteListFragment : BaseFragment() {
         } else {
             adapter!!.forceUpdate(list)
         }
+    }
+
+    interface NoteRegisteredApi : Serializable {
+        fun registered()
     }
 }

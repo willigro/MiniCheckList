@@ -34,8 +34,10 @@ class NoteDAO(context: Context) {
                 TableNote.TABLE,
                 TableNote.ID
             )
-                .update(it,
-                    ContentValuesDAO.item(item), item.id, true)
+                .update(
+                    it,
+                    ContentValuesDAO.item(item), item.id, true
+                )
         } ?: false
     }
 
@@ -88,8 +90,18 @@ class NoteDAO(context: Context) {
                 TableNote.ID
             )
                 .update(it, ContentValues().apply {
-                put(TableNote.CHECKED, item.checked)
-            }, item.id, true)
+                    put(TableNote.CHECKED, item.checked)
+                }, item.id, true)
+        } ?: false
+    }
+
+    fun updateIdApi(note: Note): Boolean {
+        managerDAO.openWrite()
+        return managerDAO.db?.let {
+            GenericDAO(TableNote.TABLE, TableNote.ID)
+                .update(it, ContentValues().apply {
+                    put(TableNote.ID_API, note.idApi)
+                }, note.id, true)
         } ?: false
     }
 }

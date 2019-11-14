@@ -11,4 +11,5 @@ class NoteListModel(context: Context) {
     fun setChecked(note: Note) = noteDAO.setChecked(note)
     fun getAll() = noteDAO.getAll(QueryDAO.DESC)
     fun newNote(note: Note) = noteDAO.insert(note)
+    fun updateIdApi(note: Note) = noteDAO.updateIdApi(note)
 }
